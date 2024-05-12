@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "F:\\edulife\\firstaidbox-server\\logs\\winston\\successes\\.ded04d90538ff23ec4f184dc15d73e88de07ddaf-audit.json",
+    "files": [
+        {
+            "date": 1708160961734,
+            "name": "F:\\edulife\\firstaidbox-server\\logs\\winston\\successes\\pc-2024-17-02-15-success.log",
+            "hash": "c3e6b7490f15cd4770727c2be317024acccc533f96599e56ec92d16af746a87a"
+        }
+    ],
+    "hashType": "sha256"
+}
