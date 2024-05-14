@@ -9,7 +9,7 @@ export type IUser = {
   phone: string;
   email: string;
   upazila: string;
-  bollodGroup?: string;
+  bloodGroup?: string;
   isDonor?: boolean;
 };
 

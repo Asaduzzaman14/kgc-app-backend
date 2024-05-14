@@ -7,7 +7,10 @@ export type IServicesCatagory = {
   description: string;
 };
 
-export type ServicesCatagoryModal = Model<IServicesCatagory>;
+export type ServicesCatagoryModal = Model<
+  IServicesCatagory,
+  Record<string, unknown>
+>;
 
 export type IFilterRequest = {
   searchTerm?: string;

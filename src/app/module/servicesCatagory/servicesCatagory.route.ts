@@ -5,7 +5,7 @@ import { Controller } from './servicesCatagory.controller';
 
 const router = express.Router();
 
-router.post('/', auth(ENUM_USER_ROLE.USER), Controller.create);
+router.post('/', Controller.create);
 
 router.get('/:id', auth(ENUM_USER_ROLE.USER), Controller.getDataById);
 

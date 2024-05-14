@@ -9,8 +9,7 @@ export type IServices = {
   img?: string;
   description: string;
   phone: string;
-  price: string;
-  catagoryService: Types.ObjectId | IServicesCatagory;
+  servicesCatagory: Types.ObjectId | IServicesCatagory;
   user: Types.ObjectId | IUser;
 };
 

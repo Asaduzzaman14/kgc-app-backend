@@ -1,5 +1,6 @@
 import { Request, RequestHandler, Response } from 'express';
 import httpStatus from 'http-status';
+import { JwtPayload } from 'jsonwebtoken';
 import { paginationFields } from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
@@ -10,18 +11,19 @@ import { Services } from './services.service';
 
 const create: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    console.log(req.user);
-
     const { ...data } = req.body;
+    const user: JwtPayload | null = req?.user;
+
+    data.user = user!._id;
     console.log(data);
 
-    // const result = await Services.create(data);
+    const result = await Services.create(data);
 
     sendResponse<IServices>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'Successfully Services added',
-      data: 'result',
+      data: result,
     });
   }
 );

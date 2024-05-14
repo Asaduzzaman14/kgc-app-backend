@@ -57,7 +57,8 @@ const getAllData = async (
     andCondation.length > 0 ? { $and: andCondation } : {};
 
   const result = await Service.find(requestCondetion)
-    .populate('catagoryService')
+    .populate('servicesCatagory')
+    .populate('user')
     .sort(sortCondations)
     .skip(skip)
     .limit(limit);
@@ -74,7 +75,7 @@ const getAllData = async (
 };
 
 const getSingleData = async (id: string): Promise<IServices | null> => {
-  const result = await Service.findById(id);
+  const result = await Service.findById(id).populate('servicesCatagory');
   return result;
 };
 

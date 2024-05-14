@@ -25,6 +25,6 @@ const servicesCatagorysSchema = new Schema<
 );
 
 export const ServicesCatagory = model<IServicesCatagory, ServicesCatagoryModal>(
-  'servicesCatagorys',
+  'ServicesCatagory',
   servicesCatagorysSchema
 );

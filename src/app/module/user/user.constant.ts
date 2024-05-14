@@ -1,2 +1,9 @@
-export const EVENT_STUDENT_CREATED = 'student.created';
-export const EVENT_FACULTY_CREATED = 'faculty.created';
+export const donnorSearchableFields = ['searchTerm', 'name', 'phone', 'email'];
+
+export const donnoeFilterableFields = [
+  'name',
+  'phone',
+  'email',
+  'bloodGroup',
+  'isDonor',
+];

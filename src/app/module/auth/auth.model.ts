@@ -23,7 +23,7 @@ const adminSchema = new Schema<IUser, UserModal>(
       type: String,
       required: [true, 'phone is required'],
     },
-    bollodGroup: {
+    bloodGroup: {
       type: String,
     },
     upazila: {

@@ -14,17 +14,13 @@ const servicesCatagorysSchema = new Schema<IServices, ServicesModal>(
       type: String,
       required: [true, 'description is required'],
     },
-    price: {
-      type: String,
-      required: [true, 'price is required'],
-    },
     phone: {
       type: String,
       required: [true, 'phone is required'],
     },
-    catagoryService: {
+    servicesCatagory: {
       type: Types.ObjectId,
-      ref: 'servicesCatagorys',
+      ref: 'ServicesCatagory',
       required: true,
     },
     user: {
