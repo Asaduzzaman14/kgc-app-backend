@@ -9,6 +9,8 @@ export type IUser = {
   phone: string;
   email: string;
   upazila: string;
+
+  lastDonateDate?: string;
   bloodGroup?: string;
   isDonor?: boolean;
 };

@@ -3,8 +3,27 @@ import { JwtPayload, Secret } from 'jsonwebtoken';
 import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
-import { IChagePassword, ILogin, IloginResponse } from './auth.interface';
+import {
+  IChagePassword,
+  ILogin,
+  IUser,
+  IloginResponse,
+} from './auth.interface';
 import { User } from './auth.model';
+
+const create = async (user: IUser): Promise<IUser | null> => {
+  console.log(user);
+
+  // set role
+  user.role = 'user';
+
+  const newAdmin = await User.create(user);
+  if (!newAdmin) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to Register');
+  }
+
+  return newAdmin;
+};
 
 const login = async (payload: ILogin): Promise<IloginResponse> => {
   const { email: userEmail, password } = payload;
@@ -109,6 +128,7 @@ const refreshToken = async (token: string): Promise<any> => {
 };
 
 export const AuthService = {
+  create,
   login,
   passwordChange,
   refreshToken,

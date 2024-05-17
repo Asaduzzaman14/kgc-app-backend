@@ -1,9 +1,23 @@
-import { Request, Response } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
-import { IloginResponse } from './auth.interface';
+import { IUser, IloginResponse } from './auth.interface';
 import { AuthService } from './auth.service';
+
+const create: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const { ...userData } = req.body;
+    const result = await AuthService.create(userData);
+
+    sendResponse<IUser>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Successfully registation complete',
+      data: result,
+    });
+  }
+);
 
 const login = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body;
@@ -78,6 +92,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const AuthController = {
+  create,
   login,
   changePassword,
   refreshToken,

@@ -26,6 +26,9 @@ const adminSchema = new Schema<IUser, UserModal>(
     bloodGroup: {
       type: String,
     },
+    lastDonateDate: {
+      type: String,
+    },
     upazila: {
       type: String,
       required: [true, 'upazila is required'],

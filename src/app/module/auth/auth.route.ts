@@ -11,6 +11,7 @@ router.post(
   // validateRequest(AuthValidation.authValidationZodSchema),
   AuthController.login
 );
+router.post('/register', AuthController.create);
 
 router.post(
   '/refresh-token',

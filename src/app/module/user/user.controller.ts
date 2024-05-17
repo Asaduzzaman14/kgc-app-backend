@@ -8,7 +8,7 @@ import { donnoeFilterableFields } from './user.constant';
 import { IUser } from './user.interface';
 import { UserService } from './user.service';
 
-const createAdmin: RequestHandler = catchAsync(
+const create: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { ...userData } = req.body;
     const result = await UserService.create(userData);
@@ -39,6 +39,6 @@ const getDonors = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const UserController = {
-  createAdmin,
+  create,
   getDonors,
 };

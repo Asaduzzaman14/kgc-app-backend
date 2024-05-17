@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/', auth(ENUM_USER_ROLE.USER), Controller.create);
 
-router.get('/:id', auth(ENUM_USER_ROLE.USER), Controller.getDataById);
+router.get('/:id', Controller.getDataById);
 
 router.patch('/:id', auth(ENUM_USER_ROLE.USER), Controller.updateData);
 
