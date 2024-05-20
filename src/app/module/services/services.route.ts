@@ -13,6 +13,6 @@ router.patch('/:id', auth(ENUM_USER_ROLE.USER), Controller.updateData);
 
 router.delete('/:id', auth(ENUM_USER_ROLE.USER), Controller.deleteData);
 
-router.get('/', auth(ENUM_USER_ROLE.USER), Controller.getAlldata);
+router.get('/', Controller.getAlldata);
 
 export const ServicesRoutes = router;

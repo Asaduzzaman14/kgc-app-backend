@@ -13,6 +13,6 @@ router.patch('/:id', Controller.updateData);
 
 router.delete('/:id', auth(ENUM_USER_ROLE.ADMIN), Controller.deleteData);
 
-router.get('/', auth(ENUM_USER_ROLE.USER), Controller.getAlldata);
+router.get('/', Controller.getAlldata);
 
 export const ServicesCatagoryRoute = router;
