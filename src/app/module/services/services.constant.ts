@@ -3,6 +3,12 @@ export const customerSearchableFields = [
   'name',
   'phone',
   'email',
+  'servicesCatagory',
 ];
 
-export const customerFilterableFields = ['name', 'phone', 'email'];
+export const customerFilterableFields = [
+  'name',
+  'phone',
+  'email',
+  'servicesCatagory',
+];

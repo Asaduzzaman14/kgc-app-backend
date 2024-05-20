@@ -40,6 +40,12 @@ const getAllData = async (
     });
   }
 
+  // if (searchTerm) {
+  //   andCondation.push({
+  //     servicesCatagory: filters.servicesCatagory,
+  //   });
+  // }
+
   if (Object.keys(filtersData).length) {
     andCondation.push({
       $and: Object.entries(filtersData).map(([field, value]) => ({
@@ -75,7 +81,9 @@ const getAllData = async (
 };
 
 const getSingleData = async (id: string): Promise<IServices | null> => {
-  const result = await Service.findById(id).populate('servicesCatagory');
+  const result = await Service.findById(id)
+    .populate('servicesCatagory')
+    .populate('user');
   return result;
 };
 

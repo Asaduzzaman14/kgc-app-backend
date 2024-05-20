@@ -18,4 +18,5 @@ export type ServicesModal = Model<IServices>;
 export type IFilterRequest = {
   searchTerm?: string;
   name?: string;
+  servicesCatagory?: string;
 };
