@@ -32,8 +32,6 @@ const create: RequestHandler = catchAsync(
 
 const getAlldata = catchAsync(async (req: Request, res: Response) => {
   const query = req?.query;
-  const user = req?.user;
-  console.log(user, 'user');
 
   const paginationOptions = pick(query, paginationFields);
   const filters = pick(query, customerFilterableFields);

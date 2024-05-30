@@ -4,6 +4,7 @@ import ApiError from '../../../errors/ApiError';
 import calculatePagination from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
+import { ServiceModal } from '../services/services.models';
 import { customerSearchableFields } from './servicesCatagory.constant';
 import {
   IFilterRequest,
@@ -96,7 +97,10 @@ const updateDataById = async (
 };
 
 const deleteData = async (id: string): Promise<IServicesCatagory | null> => {
+  const service = await ServiceModal.deleteMany({ categoryId: id });
   const result = await ServicesCatagory.findByIdAndDelete(id);
+  console.log(service);
+  
   return result;
 };
 

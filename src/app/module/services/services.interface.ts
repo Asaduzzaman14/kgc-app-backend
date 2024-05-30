@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { Model, Types } from 'mongoose';
-import { IUser } from '../auth/auth.interface';
 import { IServicesCatagory } from '../servicesCatagory/servicesCatagory.interface';
 
 export type IServices = {
@@ -9,8 +8,11 @@ export type IServices = {
   img?: string;
   description: string;
   phone: string;
+  email: string;
+  serviceProviderName: string;
+  location:string
   servicesCatagory: Types.ObjectId | IServicesCatagory;
-  user: Types.ObjectId | IUser;
+   
 };
 
 export type ServicesModal = Model<IServices>;

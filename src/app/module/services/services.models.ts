@@ -18,21 +18,29 @@ const servicesCatagorysSchema = new Schema<IServices, ServicesModal>(
       type: String,
       required: [true, 'phone is required'],
     },
+    email: {
+      type: String,
+      required: [true, 'Email is required'],
+    },
+    serviceProviderName: {
+      type: String,
+      required: [true, 'serviceProviderName is required'],
+    },
+    location: {
+      type: String,
+      required: [true, 'location is required'],
+    },
+
     servicesCatagory: {
       type: Types.ObjectId,
       ref: 'ServicesCatagory',
-      required: true,
-    },
-    user: {
-      type: Types.ObjectId,
-      ref: 'users',
       required: true,
     },
   },
   { timestamps: true }
 );
 
-export const Service = model<IServices, ServicesModal>(
+export const ServiceModal = model<IServices, ServicesModal>(
   'services',
   servicesCatagorysSchema
 );

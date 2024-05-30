@@ -6,12 +6,12 @@ import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { customerSearchableFields } from './services.constant';
 import { IFilterRequest, IServices } from './services.interface';
-import { Service } from './services.models';
+import { ServiceModal } from './services.models';
 
 const create = async (data: IServices): Promise<IServices | null> => {
   console.log(data);
 
-  const newCustomer = await Service.create(data);
+  const newCustomer = await ServiceModal.create(data);
 
   if (!newCustomer) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to add Customer');
@@ -62,14 +62,13 @@ const getAllData = async (
   const requestCondetion =
     andCondation.length > 0 ? { $and: andCondation } : {};
 
-  const result = await Service.find(requestCondetion)
+  const result = await ServiceModal.find(requestCondetion)
     .populate('servicesCatagory')
-    .populate('user')
     .sort(sortCondations)
     .skip(skip)
     .limit(limit);
 
-  const total = await Service.countDocuments();
+  const total = await ServiceModal.countDocuments();
   return {
     meta: {
       page,
@@ -81,7 +80,7 @@ const getAllData = async (
 };
 
 const getSingleData = async (id: string): Promise<IServices | null> => {
-  const result = await Service.findById(id)
+  const result = await ServiceModal.findById(id)
     .populate('servicesCatagory')
     .populate('user');
   return result;
@@ -91,14 +90,14 @@ const updateDataById = async (
   id: string,
   paylode: IServices
 ): Promise<IServices | null> => {
-  const result = await Service.findByIdAndUpdate({ _id: id }, paylode, {
+  const result = await ServiceModal.findByIdAndUpdate({ _id: id }, paylode, {
     new: true,
   });
   return result;
 };
 
 const deleteData = async (id: string): Promise<IServices | null> => {
-  const result = await Service.findByIdAndDelete(id);
+  const result = await ServiceModal.findByIdAndDelete(id);
   return result;
 };
 

@@ -17,12 +17,12 @@ const create = async (user: IUser): Promise<IUser | null> => {
   // set role
   user.role = 'user';
 
-  const newAdmin = await User.create(user);
-  if (!newAdmin) {
+  const newUser = await User.create(user);
+  if (!newUser) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to Register');
   }
 
-  return newAdmin;
+  return newUser;
 };
 
 const login = async (payload: ILogin): Promise<IloginResponse> => {
@@ -32,13 +32,13 @@ const login = async (payload: ILogin): Promise<IloginResponse> => {
 
   const isUserExist = await User.isUserExist(userEmail);
   console.log(isUserExist, 'isUserExist');
-  const _id = isUserExist._id.toString();
 
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not found');
   }
   // console.log(password, isUserExist.password);
 
+  const _id = isUserExist._id.toString();
   if (
     isUserExist.password &&
     !(await User.isPasswordMatch(password, isUserExist.password))
@@ -64,10 +64,6 @@ const passwordChange = async (
 ): Promise<void> => {
   const { oldPassword, newPassword } = paylode;
 
-  // Step 1 -> checking is user exist
-  // alternative way to change password
-  console.log(user);
-
   const isUserExist = await User.findOne({ id: user?.userId }).select(
     '+password'
   );
@@ -76,8 +72,6 @@ const passwordChange = async (
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
   }
-
-  //  Step 2 -> checking old password
 
   if (
     isUserExist.password &&

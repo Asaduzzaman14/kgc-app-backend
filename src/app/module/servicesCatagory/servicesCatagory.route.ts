@@ -9,7 +9,7 @@ router.post('/', Controller.create);
 
 router.get('/:id', Controller.getDataById);
 
-router.patch('/:id', Controller.updateData);
+router.patch('/:id', auth(ENUM_USER_ROLE.ADMIN), Controller.updateData);
 
 router.delete('/:id', auth(ENUM_USER_ROLE.ADMIN), Controller.deleteData);
 
