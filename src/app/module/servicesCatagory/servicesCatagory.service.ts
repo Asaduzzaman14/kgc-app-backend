@@ -97,10 +97,12 @@ const updateDataById = async (
 };
 
 const deleteData = async (id: string): Promise<IServicesCatagory | null> => {
-  const service = await ServiceModal.deleteMany({ categoryId: id });
+  const service = await ServiceModal.deleteMany({ servicesCatagory: id });
+  console.log(service, 'delete');
+
   const result = await ServicesCatagory.findByIdAndDelete(id);
-  console.log(service);
-  
+  console.log(result);
+
   return result;
 };
 
