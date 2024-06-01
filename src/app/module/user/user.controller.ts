@@ -38,7 +38,20 @@ const getDonors = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getDataById = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user;
+  const result = await UserService.getprofile(user!._id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Profile Retrieved Successfully',
+    data: result,
+  });
+});
+
 export const UserController = {
   create,
   getDonors,
+  getDataById,
 };

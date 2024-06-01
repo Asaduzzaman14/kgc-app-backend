@@ -75,7 +75,17 @@ const getDonorsFromDb = async (
   };
 };
 
+const getprofile = async (id: string): Promise<IUser | null> => {
+  console.log(id);
+
+  const result = await User.findById(id);
+  console.log(result);
+
+  return result;
+};
+
 export const UserService = {
   create,
   getDonorsFromDb,
+  getprofile,
 };
