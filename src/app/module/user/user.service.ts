@@ -84,8 +84,18 @@ const getprofile = async (id: string): Promise<IUser | null> => {
   return result;
 };
 
+const updateDataById = async (
+  id: string,
+  paylode: IUser
+): Promise<IUser | null> => {
+  const result = await User.findByIdAndUpdate({ _id: id }, paylode, {
+    new: true,
+  });
+  return result;
+};
 export const UserService = {
   create,
   getDonorsFromDb,
   getprofile,
+  updateDataById,
 };

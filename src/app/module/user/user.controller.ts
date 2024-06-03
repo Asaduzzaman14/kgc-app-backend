@@ -50,8 +50,24 @@ const getDataById = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// // update Parts By Id
+const updateProfile = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user;
+  const updatedData = req.body;
+
+  const result = await UserService.updateDataById(user!._id, updatedData);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Profile successfully updated',
+    data: result,
+  });
+});
+
 export const UserController = {
   create,
   getDonors,
   getDataById,
+  updateProfile,
 };

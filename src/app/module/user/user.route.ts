@@ -15,4 +15,10 @@ router.get(
   UserController.getDataById
 );
 
+router.patch(
+  '/profile/update',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
+  UserController.updateProfile
+);
+
 export const UserRoutes = router;
