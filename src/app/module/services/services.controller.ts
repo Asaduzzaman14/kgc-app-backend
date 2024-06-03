@@ -12,6 +12,7 @@ import { Services } from './services.service';
 const create: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { ...data } = req.body;
+
     const user: JwtPayload | null = req?.user;
 
     data.user = user!._id;
@@ -62,6 +63,14 @@ const updateData = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const updatedData = req.body;
 
+  const file = req.file;
+  console.log(file);
+  // Construct the image URL
+  const baseUrl = `${req.protocol}://${req.get('host')}`;
+  const imageUrl = `${baseUrl}/uploads/${file!.filename}`;
+  console.log(imageUrl);
+
+  return;
   const result = await Services.updateDataById(id, updatedData);
 
   sendResponse<IServices>(res, {
