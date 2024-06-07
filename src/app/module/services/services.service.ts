@@ -90,6 +90,8 @@ const updateDataById = async (
   id: string,
   paylode: IServices
 ): Promise<IServices | null> => {
+  console.log(paylode,id);
+  
   const result = await ServiceModal.findByIdAndUpdate({ _id: id }, paylode, {
     new: true,
   });

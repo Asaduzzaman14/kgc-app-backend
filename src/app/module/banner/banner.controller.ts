@@ -1,43 +1,27 @@
 import { Request, RequestHandler, Response } from 'express';
 import httpStatus from 'http-status';
-import { JwtPayload } from 'jsonwebtoken';
-import { paginationFields } from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsync';
-import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
-import { customerFilterableFields } from './services.constant';
-import { IServices } from './services.interface';
-import { Services } from './services.service';
+import { IBanner } from './banner.interface';
+import { Services } from './banner.service';
 
 const create: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { ...data } = req.body;
 
-    const user: JwtPayload | null = req?.user;
-
-    data.user = user!._id;
-    console.log(data);
-
     const result = await Services.create(data);
-
-    sendResponse<IServices>(res, {
+    sendResponse<IBanner>(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Successfully Services added',
+      message: 'Successfully  banner added',
       data: result,
     });
   }
 );
 
-//  get All Order
-
+//  get All
 const getAlldata = catchAsync(async (req: Request, res: Response) => {
-  const query = req?.query;
-
-  const paginationOptions = pick(query, paginationFields);
-  const filters = pick(query, customerFilterableFields);
-
-  const result = await Services.getAllData(filters, paginationOptions);
+  const result = await Services.getAllData();
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -50,10 +34,10 @@ const getDataById = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const result = await Services.getSingleData(id);
 
-  sendResponse<IServices>(res, {
+  sendResponse<IBanner>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Services Retrieved Successfully',
+    message: 'Data Retrieved Successfully',
     data: result,
   });
 });
@@ -62,19 +46,10 @@ const getDataById = catchAsync(async (req: Request, res: Response) => {
 const updateData = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const updatedData = req.body;
-console.log(updateData);
 
-  // const file = req.file;
-  // console.log(file);
-  // // Construct the image URL
-  // const baseUrl = `${req.protocol}://${req.get('host')}`;
-  // const imageUrl = `${baseUrl}/uploads/${file!.filename}`;
-  // console.log(imageUrl);
-
- 
   const result = await Services.updateDataById(id, updatedData);
 
-  sendResponse<IServices>(res, {
+  sendResponse<IBanner>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Services successfully updated',
@@ -88,10 +63,10 @@ const deleteData = catchAsync(async (req: Request, res: Response) => {
 
   const result = await Services.deleteData(id);
 
-  sendResponse<IServices>(res, {
+  sendResponse<IBanner>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Services deleted Successfully',
+    message: 'Data deleted Successfully',
     data: result,
   });
 });
