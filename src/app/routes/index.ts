@@ -1,6 +1,7 @@
 import express from 'express';
 import { AuthRoutes } from '../module/auth/auth.route';
 import { BannerRoutes } from '../module/banner/banner.route';
+import { NoticeRoutes } from '../module/notice/notice.route';
 import { ServicesRoutes } from '../module/services/services.route';
 import { ServicesCatagoryRoute } from '../module/servicesCatagory/servicesCatagory.route';
 import { UserRoutes } from '../module/user/user.route';
@@ -27,6 +28,10 @@ const moduleRoutes = [
   {
     path: '/services-catagory',
     routes: ServicesCatagoryRoute,
+  },
+  {
+    path: '/notice',
+    routes: NoticeRoutes,
   },
 ];
 
