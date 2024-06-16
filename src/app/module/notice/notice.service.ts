@@ -4,7 +4,6 @@ import { INotice } from './notice.interface';
 import { Notice } from './notice.models';
 
 const create = async (data: INotice): Promise<INotice | null> => {
-  console.log(data);
   const isExist = await Notice.find({});
 
   if (isExist) {
@@ -20,7 +19,9 @@ const create = async (data: INotice): Promise<INotice | null> => {
 };
 
 const getAllData = async (): Promise<INotice[]> => {
-  const result = await Notice.find({});
+  const result = await Notice.find({
+    status: 'active',
+  });
   console.log(result);
 
   return result;

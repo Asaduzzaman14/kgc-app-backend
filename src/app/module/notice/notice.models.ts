@@ -7,6 +7,11 @@ const bannerSchema = new Schema<INotice, NoticeModal>(
       type: String,
       required: [true, 'notice is required'],
     },
+    status: {
+      type: String,
+      enum: ['active', 'inactive'],
+      default: 'active',
+    },
   },
   { timestamps: true }
 );
