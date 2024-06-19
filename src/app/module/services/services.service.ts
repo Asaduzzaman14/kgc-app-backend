@@ -25,7 +25,7 @@ const getAllData = async (
   pageinationOptions: IPaginationOptions
 ): Promise<IGenericResponse<IServices[]>> => {
   // pagination helpers
-  const { page, limit, skip, sortBy, sortOrder } =
+  const { page, limit, sortBy, sortOrder } =
     calculatePagination(pageinationOptions);
 
   const { searchTerm, ...filtersData } = filters;
@@ -64,9 +64,9 @@ const getAllData = async (
 
   const result = await ServiceModal.find(requestCondetion)
     .populate('servicesCatagory')
-    .sort(sortCondations)
-    .skip(skip)
-    .limit(limit);
+    .sort(sortCondations);
+  // .skip(skip)
+  // .limit(limit);
 
   const total = await ServiceModal.countDocuments();
   return {
@@ -90,8 +90,8 @@ const updateDataById = async (
   id: string,
   paylode: IServices
 ): Promise<IServices | null> => {
-  console.log(paylode,id);
-  
+  console.log(paylode, id);
+
   const result = await ServiceModal.findByIdAndUpdate({ _id: id }, paylode, {
     new: true,
   });

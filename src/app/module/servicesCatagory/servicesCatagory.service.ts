@@ -30,7 +30,7 @@ const getAllData = async (
   pageinationOptions: IPaginationOptions
 ): Promise<IGenericResponse<IServicesCatagory[]>> => {
   // pagination helpers
-  const { page, limit, skip, sortBy, sortOrder } =
+  const { page, limit, sortBy, sortOrder } =
     calculatePagination(pageinationOptions);
 
   const { searchTerm, ...filtersData } = filters;
@@ -61,10 +61,11 @@ const getAllData = async (
   const requestCondetion =
     andCondation.length > 0 ? { $and: andCondation } : {};
 
-  const result = await ServicesCatagory.find(requestCondetion)
-    .sort(sortCondations)
-    .skip(skip)
-    .limit(limit);
+  const result = await ServicesCatagory.find(requestCondetion).sort(
+    sortCondations
+  );
+  // .skip(skip)
+  // .limit(limit);
 
   const total = await ServicesCatagory.countDocuments();
   return {
