@@ -25,6 +25,7 @@ const adminSchema = new Schema<IUser, UserModal>(
     },
     bloodGroup: {
       type: String,
+      enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
     },
     lastDonateDate: {
       type: String,

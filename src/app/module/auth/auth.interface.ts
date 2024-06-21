@@ -11,7 +11,7 @@ export type IUser = {
   upazila: string;
 
   lastDonateDate?: string;
-  bloodGroup?: string;
+  bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-'; // All possible blood groups
   isDonor?: boolean;
 };
 
