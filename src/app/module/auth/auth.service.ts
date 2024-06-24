@@ -19,6 +19,12 @@ const create = async (user: IUser): Promise<IUser | null> => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Please add your blood Group');
   }
 
+  const isexist = await User.find({ email: user.email });
+  console.log(isexist);
+  if (isexist) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'user already exist');
+  }
+
   // set role
   user.role = 'user';
 

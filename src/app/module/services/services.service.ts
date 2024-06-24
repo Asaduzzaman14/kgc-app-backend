@@ -1,23 +1,39 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status';
+import { JwtPayload } from 'jsonwebtoken';
 import { SortOrder } from 'mongoose';
 import ApiError from '../../../errors/ApiError';
 import calculatePagination from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
+import { User } from '../auth/auth.model';
 import { customerSearchableFields } from './services.constant';
 import { IFilterRequest, IServices } from './services.interface';
 import { ServiceModal } from './services.models';
 
-const create = async (data: IServices): Promise<IServices | null> => {
-  console.log(data);
+const create = async (
+  data: IServices,
+  user: JwtPayload | null
+): Promise<IServices | null> => {
+  console.log(user);
 
-  const newCustomer = await ServiceModal.create(data);
-
-  if (!newCustomer) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to add Customer');
+  if (user?.role == 'user') {
+    const getUser = await User.findById(user._id);
+    console.log(getUser);
+    if (getUser) {
+      data.email = getUser?.email;
+      data.name = getUser?.name;
+      data.serviceProviderName = getUser?.name; // Assuming this is intended
+    }
   }
 
-  return newCustomer;
+  const newService = await ServiceModal.create(data);
+
+  if (!newService) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to add service');
+  }
+
+  return newService;
 };
 
 const getAllData = async (
@@ -39,12 +55,6 @@ const getAllData = async (
       })),
     });
   }
-
-  // if (searchTerm) {
-  //   andCondation.push({
-  //     servicesCatagory: filters.servicesCatagory,
-  //   });
-  // }
 
   if (Object.keys(filtersData).length) {
     andCondation.push({
@@ -103,10 +113,18 @@ const deleteData = async (id: string): Promise<IServices | null> => {
   return result;
 };
 
+const getMyData = async (
+  user: JwtPayload | null
+): Promise<IServices[] | null> => {
+  const result = await ServiceModal.find({ email: user?.email });
+  return result;
+};
+
 export const Services = {
   create,
   getAllData,
   getSingleData,
   updateDataById,
   deleteData,
+  getMyData,
 };

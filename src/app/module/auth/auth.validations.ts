@@ -29,8 +29,7 @@ const authValidationZodSchema = z.object({
     upazila: z.string({
       required_error: 'Upazila is required',
     }),
-    isDonor: z.boolean().optional(),
-  }),
+   }),
 });
 
 const refreshTokenZodSchema = z.object({
