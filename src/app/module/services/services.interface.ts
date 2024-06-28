@@ -9,6 +9,7 @@ export type IServices = {
   description: string;
   phone: string;
   email: string;
+  serviceProviderName: string;
   addressDegree: string;
   location: string;
   servicesCatagory: Types.ObjectId | IServicesCatagory;

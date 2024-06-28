@@ -16,7 +16,7 @@ router.get(
 );
 
 router.patch(
-  '/profile/update',
+  '/profile/update/:id',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
   UserController.updateProfile
 );

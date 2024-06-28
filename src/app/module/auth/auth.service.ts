@@ -20,9 +20,9 @@ const create = async (user: IUser): Promise<IUser | null> => {
   }
 
   const isexist = await User.find({ email: user.email });
-  console.log(isexist);
-  if (isexist) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'user already exist');
+  console.log(isexist, 'exist');
+  if (isexist.length > 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'User already exists');
   }
 
   // set role

@@ -5,11 +5,13 @@ import { Controller } from './notice.controller';
 
 const router = express.Router();
 
-router.post('/', auth(ENUM_USER_ROLE.ADMIN), Controller.create);
+router.post('/', Controller.create);
 
 router.patch('/:id', auth(ENUM_USER_ROLE.ADMIN), Controller.updateData);
 
 router.delete('/:id', auth(ENUM_USER_ROLE.ADMIN), Controller.deleteData);
+
+router.get('/allnotice', Controller.getAlldataForAdmin);
 
 router.get('/', Controller.getAlldata);
 

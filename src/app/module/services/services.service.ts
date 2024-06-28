@@ -21,11 +21,13 @@ const create = async (
 
   if (user?.role == 'user') {
     const getUser = await User.findById(user?._id);
+
     if (getUser) {
       data.email = getUser?.email;
       data.name = getUser?.name;
       data.phone = getUser?.phone;
       data.location = getUser?.upazila;
+      data.serviceProviderName = getUser?.name;
     }
   }
 

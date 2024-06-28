@@ -1,7 +1,6 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import { ENUM_USER_ROLE } from '../../../enums/user';
 // import { FileUploadHelper } from '../../../helpers/fileUploderHelper';
-import { FileUploadHelper } from '../../../helpers/fileUploderHelper';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { Controller } from './services.controller';
@@ -16,20 +15,20 @@ router.post(
   Controller.create
 );
 
-router.patch(
-  '/:id',
-  // auth(ENUM_USER_ROLE.USER),
-  FileUploadHelper.upload.single('file'),
-  (req: Request, res: Response, next: NextFunction) => {
-    return Controller.updateData(req, res, next);
-  }
-);
-
 // router.patch(
 //   '/:id',
-//   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
-//   Controller.updateData
+//   // auth(ENUM_USER_ROLE.USER),
+//   FileUploadHelper.upload.single('file'),
+//   (req: Request, res: Response, next: NextFunction) => {
+//     return Controller.updateData(req, res, next);
+//   }
 // );
+
+router.patch(
+  '/:id',
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
+  Controller.updateData
+);
 
 router.delete(
   '/:id',

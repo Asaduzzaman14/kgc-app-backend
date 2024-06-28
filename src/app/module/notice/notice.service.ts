@@ -6,7 +6,7 @@ import { Notice } from './notice.models';
 const create = async (data: INotice): Promise<INotice | null> => {
   const isExist = await Notice.find({});
 
-  if (isExist) {
+  if (isExist.length > 0) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Notise already exist');
   }
 
@@ -22,6 +22,13 @@ const getAllData = async (): Promise<INotice[]> => {
   const result = await Notice.find({
     status: 'active',
   });
+  console.log(result);
+
+  return result;
+};
+
+const getAllDataForAdmin = async (): Promise<INotice[]> => {
+  const result = await Notice.find({});
   console.log(result);
 
   return result;
@@ -51,6 +58,7 @@ export const Services = {
   create,
   getAllData,
   getSingleData,
+  getAllDataForAdmin,
   updateDataById,
   deleteData,
 };

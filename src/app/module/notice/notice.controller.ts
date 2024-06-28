@@ -19,7 +19,7 @@ const create: RequestHandler = catchAsync(
   }
 );
 
-//  get All
+//  get All active data
 const getAlldata = catchAsync(async (req: Request, res: Response) => {
   const result = await Services.getAllData();
 
@@ -27,6 +27,18 @@ const getAlldata = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Data Retrieved Succesfully',
+    data: result,
+  });
+});
+
+//  get All
+const getAlldataForAdmin = catchAsync(async (req: Request, res: Response) => {
+  const result = await Services.getAllData();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'get All data Retrieved Succesfully',
     data: result,
   });
 });
@@ -77,4 +89,5 @@ export const Controller = {
   updateData,
   getDataById,
   deleteData,
+  getAlldataForAdmin,
 };

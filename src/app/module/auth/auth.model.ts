@@ -23,10 +23,6 @@ const adminSchema = new Schema<IUser, UserModal>(
       type: String,
       required: [true, 'phone is required'],
     },
-    bloodGroup: {
-      type: String,
-      enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
-    },
     lastDonateDate: {
       type: String,
     },
@@ -34,7 +30,10 @@ const adminSchema = new Schema<IUser, UserModal>(
       type: String,
       required: [true, 'upazila is required'],
     },
-
+    bloodGroup: {
+      type: String,
+      enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+    },
     isDonor: {
       type: Boolean,
     },

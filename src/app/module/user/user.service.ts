@@ -29,7 +29,7 @@ const getDonorsFromDb = async (
   pageinationOptions: IPaginationOptions
 ): Promise<IGenericResponse<IUser[]>> => {
   // pagination helpers
-  const { page, limit, skip, sortBy, sortOrder } =
+  const { page, limit, sortBy, sortOrder } =
     calculatePagination(pageinationOptions);
 
   const { searchTerm, ...filtersData } = filters;
@@ -60,10 +60,7 @@ const getDonorsFromDb = async (
   const requestCondetion =
     andCondation.length > 0 ? { $and: andCondation } : {};
 
-  const result = await User.find(requestCondetion)
-    .sort(sortCondations)
-    .skip(skip)
-    .limit(limit);
+  const result = await User.find(requestCondetion).sort(sortCondations);
 
   const total = await User.countDocuments();
   return {
@@ -89,6 +86,8 @@ const updateDataById = async (
   id: string,
   paylode: IUser
 ): Promise<IUser | null> => {
+  console.log(paylode);
+
   const result = await User.findByIdAndUpdate({ _id: id }, paylode, {
     new: true,
   });
@@ -101,7 +100,7 @@ const deleteData = async (id: string): Promise<any | null> => {
   try {
     // Find the user by id and select only the email field
     const user = await User.findById(id, { email: 1 });
-    console.log(user);
+    console.log(user, 'finded');
 
     if (!user) {
       console.error('User not found');
@@ -109,10 +108,12 @@ const deleteData = async (id: string): Promise<any | null> => {
     }
 
     // Delete services associated with the user's email
-    await ServiceModal.deleteMany({ email: user.email });
+    const ser = await ServiceModal.deleteMany({ email: user.email });
+    console.log(ser);
 
     // Delete the user
-    const result = await User.deleteOne({ id });
+    const result = await User.findOneAndDelete({ _id: id });
+    console.log(result, 'uer deelete');
 
     return result;
   } catch (error) {
