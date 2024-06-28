@@ -17,17 +17,20 @@ const create = async (
 ): Promise<IServices | null> => {
   console.log(user);
 
+  console.log(data);
+
   if (user?.role == 'user') {
-    const getUser = await User.findById(user._id);
-    console.log(getUser);
+    const getUser = await User.findById(user?._id);
     if (getUser) {
       data.email = getUser?.email;
       data.name = getUser?.name;
-      data.serviceProviderName = getUser?.name; // Assuming this is intended
+      data.phone = getUser?.phone;
+      data.location = getUser?.upazila;
     }
   }
 
   const newService = await ServiceModal.create(data);
+  console.log(newService);
 
   if (!newService) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to add service');

@@ -6,6 +6,7 @@ import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IUser } from '../auth/auth.interface';
 import { User } from '../auth/auth.model';
+import { ServiceModal } from '../services/services.models';
 import { IFilterRequest } from '../servicesCatagory/servicesCatagory.interface';
 import { donnorSearchableFields } from './user.constant';
 
@@ -93,9 +94,37 @@ const updateDataById = async (
   });
   return result;
 };
+
+const deleteData = async (id: string): Promise<any | null> => {
+  console.log(id);
+
+  try {
+    // Find the user by id and select only the email field
+    const user = await User.findById(id, { email: 1 });
+    console.log(user);
+
+    if (!user) {
+      console.error('User not found');
+      return null;
+    }
+
+    // Delete services associated with the user's email
+    await ServiceModal.deleteMany({ email: user.email });
+
+    // Delete the user
+    const result = await User.deleteOne({ id });
+
+    return result;
+  } catch (error) {
+    console.error('Error deleting data:', error);
+    return null; // Return null if there's an error
+  }
+};
+
 export const UserService = {
   create,
   getDonorsFromDb,
   getprofile,
   updateDataById,
+  deleteData,
 };

@@ -98,12 +98,16 @@ const updateDataById = async (
 };
 
 const deleteData = async (id: string): Promise<IServicesCatagory | null> => {
-  const service = await ServiceModal.deleteMany({ servicesCatagory: id });
-  console.log(service, 'delete');
+  try {
+    await ServiceModal.deleteMany({ servicesCatagory: id });
 
-  const result = await ServicesCatagory.findByIdAndDelete(id);
+    const result = await ServicesCatagory.findByIdAndDelete(id);
 
-  return result;
+    return result;
+  } catch (error) {
+    console.error('Error deleting data:', error);
+    return null; // Return null if there's an error
+  }
 };
 
 export const Services = {

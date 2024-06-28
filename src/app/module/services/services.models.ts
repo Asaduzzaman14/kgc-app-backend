@@ -22,10 +22,11 @@ const servicesCatagorysSchema = new Schema<IServices, ServicesModal>(
       type: String,
       required: [true, 'Email is required'],
     },
-    serviceProviderName: {
+    addressDegree: {
       type: String,
-      required: [true, 'serviceProviderName is required'],
+      required: [true, 'addressDegree is required'],
     },
+
     location: {
       type: String,
       required: [true, 'location is required'],

@@ -34,6 +34,7 @@ const adminSchema = new Schema<IUser, UserModal>(
       type: String,
       required: [true, 'upazila is required'],
     },
+
     isDonor: {
       type: Boolean,
     },

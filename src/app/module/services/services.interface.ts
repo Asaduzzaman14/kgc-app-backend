@@ -9,10 +9,9 @@ export type IServices = {
   description: string;
   phone: string;
   email: string;
-  serviceProviderName: string;
-  location:string
+  addressDegree: string;
+  location: string;
   servicesCatagory: Types.ObjectId | IServicesCatagory;
-   
 };
 
 export type ServicesModal = Model<IServices>;

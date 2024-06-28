@@ -60,12 +60,12 @@ const updateData = catchAsync(async (req: Request, res: Response) => {
   const updatedData = req.body;
   console.log(updateData);
 
-  // const file = req.file;
-  // console.log(file);
-  // // Construct the image URL
-  // const baseUrl = `${req.protocol}://${req.get('host')}`;
-  // const imageUrl = `${baseUrl}/uploads/${file!.filename}`;
-  // console.log(imageUrl);
+  const file = req.file;
+  console.log(file);
+  // Construct the image URL
+  const baseUrl = `${req.protocol}://${req.get('host')}`;
+  const imageUrl = `${baseUrl}/uploads/${file!.filename}`;
+  console.log(imageUrl);
 
   const result = await Services.updateDataById(id, updatedData);
 

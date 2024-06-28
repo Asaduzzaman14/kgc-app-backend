@@ -6,10 +6,9 @@ export const servicesValidationZodSchema = z.object({
       .string()
       .min(5, 'description must be at least 5 character')
       .max(255),
-    phone: z.string().min(9, 'phone must be at least 10 character').max(20),
-    location: z
+    addressDegree: z
       .string()
-      .min(3, 'location must be at least 3 character')
+      .min(3, 'addressDegree must be at least 3 character')
       .max(255),
     servicesCatagory: z.string(),
   }),

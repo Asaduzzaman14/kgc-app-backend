@@ -13,6 +13,7 @@ export type IUser = {
   lastDonateDate?: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-'; // All possible blood groups
   isDonor?: boolean;
+  status: 'active' | 'inactive';
 };
 
 export type ILogin = {
