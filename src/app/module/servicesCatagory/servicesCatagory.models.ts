@@ -20,6 +20,10 @@ const servicesCatagorysSchema = new Schema<
       type: String,
       required: [true, 'description is required'],
     },
+    serialNo: {
+      type: Number,
+      required: [true, 'serialNo is required'],
+    },
   },
   { timestamps: true }
 );

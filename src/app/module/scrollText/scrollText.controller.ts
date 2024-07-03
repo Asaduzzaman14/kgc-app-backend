@@ -2,15 +2,15 @@ import { Request, RequestHandler, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
-import { INotice } from './notice.interface';
-import { Services } from './notice.service';
+import { IScrollText } from './scrollText.interface';
+import { Services } from './scrollText.service';
 
 const create: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { ...data } = req.body;
 
     const result = await Services.create(data);
-    sendResponse<INotice>(res, {
+    sendResponse<IScrollText>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'Successfully  Notice added',
@@ -46,7 +46,7 @@ const getDataById = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const result = await Services.getSingleData(id);
 
-  sendResponse<INotice>(res, {
+  sendResponse<IScrollText>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Data Retrieved Successfully',
@@ -61,7 +61,7 @@ const updateData = catchAsync(async (req: Request, res: Response) => {
 
   const result = await Services.updateDataById(id, updatedData);
 
-  sendResponse<INotice>(res, {
+  sendResponse<IScrollText>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Notice successfully updated',
@@ -75,7 +75,7 @@ const deleteData = catchAsync(async (req: Request, res: Response) => {
 
   const result = await Services.deleteData(id);
 
-  sendResponse<INotice>(res, {
+  sendResponse<IScrollText>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Data deleted Successfully',

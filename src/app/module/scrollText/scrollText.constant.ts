@@ -4,7 +4,6 @@ export const customerSearchableFields = [
   'phone',
   'email',
   'servicesCatagory',
-  'status',
 ];
 
 export const customerFilterableFields = [

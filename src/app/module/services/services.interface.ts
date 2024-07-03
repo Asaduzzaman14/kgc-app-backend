@@ -12,6 +12,9 @@ export type IServices = {
   serviceProviderName: string;
   addressDegree: string;
   location: string;
+  status: boolean;
+  serialNo: number;
+  premium: boolean;
   servicesCatagory: Types.ObjectId | IServicesCatagory;
 };
 

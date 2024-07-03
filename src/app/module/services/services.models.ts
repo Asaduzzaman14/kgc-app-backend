@@ -42,6 +42,18 @@ const servicesCatagorysSchema = new Schema<IServices, ServicesModal>(
       ref: 'ServicesCatagory',
       required: true,
     },
+    status: {
+      type: Boolean,
+      default: false,
+    },
+    serialNo: {
+      type: Number,
+      required: [true, 'serialNo is required'],
+    },
+    premium: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

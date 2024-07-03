@@ -5,6 +5,7 @@ export type IServicesCatagory = {
   name: string;
   img?: string;
   description: string;
+  serialNo: number;
 };
 
 export type ServicesCatagoryModal = Model<
