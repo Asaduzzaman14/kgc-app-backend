@@ -69,6 +69,10 @@ const getAllData = async (
     });
   }
 
+  andCondation.push({
+    status: true,
+  });
+
   const sortCondations: { [key: string]: SortOrder } = {};
 
   if (sortBy && sortOrder) {
@@ -121,7 +125,9 @@ const deleteData = async (id: string): Promise<IServices | null> => {
 const getMyData = async (
   user: JwtPayload | null
 ): Promise<IServices[] | null> => {
-  const result = await ServiceModal.find({ email: user?.email });
+  const result = await ServiceModal.find({ email: user?.email }).populate(
+    'servicesCatagory'
+  );
   return result;
 };
 
