@@ -78,7 +78,7 @@ const getprofile = async (id: string): Promise<IUser | null> => {
 
   const result = await User.findById(id);
   if (!result) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'user not found');
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'user not found');
   }
 
   return result;
