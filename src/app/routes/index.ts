@@ -38,6 +38,16 @@ const moduleRoutes = [
     path: '/scroll-text',
     routes: ScrollTextRoutes,
   },
+
+  //  buy sell
+  // {
+  //   path: '/product-categorys',
+  //   routes: ProductCatagoryRoute,
+  // },
+  // {
+  //   path: '/sub-categorys',
+  //   routes: SubCatagoryRoutes,
+  // },
 ];
 
 moduleRoutes.forEach(route => router.use(route.path, route.routes));

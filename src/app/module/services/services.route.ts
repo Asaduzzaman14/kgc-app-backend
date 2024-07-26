@@ -40,6 +40,12 @@ router.get('/get-my-services', auth(ENUM_USER_ROLE.USER), Controller.getMydata);
 
 router.get('/:id', Controller.getDataById);
 
+router.get(
+  '/admin/all-services',
+  auth(ENUM_USER_ROLE.ADMIN),
+  Controller.getAlldataFAdmin
+);
+
 router.get('/', Controller.getAlldata);
 
 export const ServicesRoutes = router;

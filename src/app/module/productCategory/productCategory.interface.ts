@@ -1,14 +1,14 @@
-/* eslint-disable no-unused-vars */
 import { Model } from 'mongoose';
 
-export type IServicesCatagory = {
+export type IProductsCategory = {
   name: string;
   img?: string;
   description: string;
+  status: boolean;
 };
 
-export type ServicesCatagoryModal = Model<
-  IServicesCatagory,
+export type ProductsCategoryModal = Model<
+  IProductsCategory,
   Record<string, unknown>
 >;
 

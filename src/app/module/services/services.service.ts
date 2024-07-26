@@ -98,6 +98,59 @@ const getAllData = async (
   };
 };
 
+const getAllDataForAdmin = async (
+  filters: IFilterRequest,
+  pageinationOptions: IPaginationOptions
+): Promise<IGenericResponse<IServices[]>> => {
+  // pagination helpers
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePagination(pageinationOptions);
+
+  const { searchTerm, ...filtersData } = filters;
+
+  const andCondation = [];
+
+  if (searchTerm) {
+    andCondation.push({
+      $or: customerSearchableFields.map(field => ({
+        [field]: { $regex: searchTerm, $options: 'i' },
+      })),
+    });
+  }
+
+  if (Object.keys(filtersData).length) {
+    andCondation.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    });
+  }
+
+  const sortCondations: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortCondations[sortBy] = sortOrder;
+  }
+  const requestCondetion =
+    andCondation.length > 0 ? { $and: andCondation } : {};
+
+  const result = await ServiceModal.find(requestCondetion)
+    .populate('servicesCatagory')
+    .sort(sortCondations)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await ServiceModal.countDocuments();
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
+};
+
 const getSingleData = async (id: string): Promise<IServices | null> => {
   const result = await ServiceModal.findById(id)
     .populate('servicesCatagory')
@@ -134,6 +187,7 @@ const getMyData = async (
 export const Services = {
   create,
   getAllData,
+  getAllDataForAdmin,
   getSingleData,
   updateDataById,
   deleteData,
