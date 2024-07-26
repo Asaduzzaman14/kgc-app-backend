@@ -4,19 +4,19 @@ import { paginationFields } from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
-import { customerFilterableFields } from './servicesCatagory.constant';
-import { IServicesCatagory } from './servicesCatagory.interface';
-import { Services } from './servicesCatagory.service';
+import { customerFilterableFields } from './subCategory.constant';
+import { IProductsCatagory } from './subCategory.interface';
+import { Services } from './subCategory.service';
 
 const create: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const { ...userData } = req.body;
-    const result = await Services.create(userData);
+    const { ...data } = req.body;
+    const result = await Services.create(data);
 
-    sendResponse<IServicesCatagory>(res, {
+    sendResponse<IProductsCatagory>(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Successfully  Services Catagory added',
+      message: 'Successfully data added',
       data: result,
     });
   }
@@ -45,10 +45,10 @@ const getDataById = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const result = await Services.getSingleData(id);
 
-  sendResponse<IServicesCatagory>(res, {
+  sendResponse<IProductsCatagory>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Services Catagory Retrieved Successfully',
+    message: 'Product Category Retrieved Successfully',
     data: result,
   });
 });
@@ -60,24 +60,24 @@ const updateData = catchAsync(async (req: Request, res: Response) => {
 
   const result = await Services.updateDataById(id, updatedData);
 
-  sendResponse<IServicesCatagory>(res, {
+  sendResponse<IProductsCatagory>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Services Catagory successfully updated',
+    message: 'Product Category successfully updated',
     data: result,
   });
 });
 
-// // Delete Parts
+// Delete Parts
 const deleteData = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
 
   const result = await Services.deleteData(id);
 
-  sendResponse<IServicesCatagory>(res, {
+  sendResponse<IProductsCatagory>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Services Catagory deleted Successfully',
+    message: 'Product Category deleted Successfully',
     data: result,
   });
 });
