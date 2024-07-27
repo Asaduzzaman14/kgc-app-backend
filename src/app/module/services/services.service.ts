@@ -27,7 +27,6 @@ const create = async (
       data.name = getUser?.name;
       data.phone = getUser?.phone;
       data.location = getUser?.upazila;
-      data.serviceProviderName = getUser?.name;
     }
   }
 
