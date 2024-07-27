@@ -8,6 +8,8 @@ import { AuthService } from './auth.service';
 const create: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { ...userData } = req.body;
+    console.log(userData);
+
     const result = await AuthService.create(userData);
 
     sendResponse<IUser>(res, {

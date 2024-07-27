@@ -35,6 +35,7 @@ const adminSchema = new Schema<IUser, UserModal>(
     },
     isDonor: {
       type: Boolean,
+      default: false,
     },
     password: {
       type: String,
