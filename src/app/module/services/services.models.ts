@@ -49,6 +49,10 @@ const servicesCatagorysSchema = new Schema<IServices, ServicesModal>(
     serialNo: {
       type: Number,
     },
+    totalCount: {
+      type: Number,
+      default: 0,
+    },
     premium: {
       type: Boolean,
       default: false,

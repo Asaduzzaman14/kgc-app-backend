@@ -30,6 +30,8 @@ router.patch(
   Controller.updateData
 );
 
+router.patch('/update-view/:id', Controller.updateCountData);
+
 router.delete(
   '/:id',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),

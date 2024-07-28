@@ -14,6 +14,10 @@ export type IServices = {
   location: string;
   status: boolean;
   serialNo: number;
+
+  count: number;
+  totalCount: number;
+
   premium: boolean;
   servicesCatagory: Types.ObjectId | IServicesCatagory;
 };

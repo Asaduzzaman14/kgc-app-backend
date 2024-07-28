@@ -74,14 +74,6 @@ const getDataById = catchAsync(async (req: Request, res: Response) => {
 const updateData = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const updatedData = req.body;
-  console.log(updateData);
-
-  // const file = req.file;
-  // console.log(file);
-  // Construct the image URL
-  // const baseUrl = `${req.protocol}://${req.get('host')}`;
-  // const imageUrl = `${baseUrl}/uploads/${file!.filename}`;
-  // console.log(imageUrl);
 
   const result = await Services.updateDataById(id, updatedData);
 
@@ -89,6 +81,20 @@ const updateData = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Services successfully updated',
+    data: result,
+  });
+});
+
+// update data By Id
+const updateCountData = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const result = await Services.updateCountDataById(id);
+
+  sendResponse<IServices>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Services count successfully updated',
     data: result,
   });
 });
@@ -124,7 +130,10 @@ export const Controller = {
   create,
   getAlldata,
   getAlldataFAdmin,
+
   updateData,
+  updateCountData,
+
   getDataById,
   deleteData,
   getMydata,

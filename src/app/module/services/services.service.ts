@@ -86,7 +86,7 @@ const getAllData = async (
   // .skip(skip)
   // .limit(limit);
 
-  const total = await ServiceModal.countDocuments();
+  const total = await ServiceModal.countDocuments(requestCondetion);
   return {
     meta: {
       page,
@@ -140,6 +140,7 @@ const getAllDataForAdmin = async (
     .limit(limit);
 
   const total = await ServiceModal.countDocuments();
+
   return {
     meta: {
       page,
@@ -151,9 +152,7 @@ const getAllDataForAdmin = async (
 };
 
 const getSingleData = async (id: string): Promise<IServices | null> => {
-  const result = await ServiceModal.findById(id)
-    .populate('servicesCatagory')
-    .populate('user');
+  const result = await ServiceModal.findById(id).populate('servicesCatagory');
   return result;
 };
 
@@ -161,11 +160,31 @@ const updateDataById = async (
   id: string,
   paylode: IServices
 ): Promise<IServices | null> => {
-  console.log(paylode, id);
-
+  const isExist = await ServiceModal.findById(id);
+  if (!isExist) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'data not found');
+  }
+  if (paylode.totalCount) {
+    paylode.totalCount = isExist.totalCount + paylode.totalCount;
+  }
   const result = await ServiceModal.findByIdAndUpdate({ _id: id }, paylode, {
     new: true,
   });
+  return result;
+};
+
+const updateCountDataById = async (id: string): Promise<IServices | null> => {
+  const isExist = await ServiceModal.findById(id);
+  if (!isExist) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'data not found');
+  }
+  const totalCount = isExist.totalCount + 1;
+
+  const result = await ServiceModal.findByIdAndUpdate(
+    { _id: id },
+    { totalCount: totalCount },
+    { new: true }
+  );
   return result;
 };
 
@@ -189,6 +208,7 @@ export const Services = {
   getAllDataForAdmin,
   getSingleData,
   updateDataById,
+  updateCountDataById,
   deleteData,
   getMyData,
 };
