@@ -15,11 +15,10 @@ const authValidationZodSchema = z.object({
     name: z.string({
       required_error: 'Name is required',
     }),
-
+    birthdate: z.string().optional(),
     phone: z.string({
       required_error: 'Phone is required',
     }),
-
     lastDonateDate: z.string().optional(),
 
     upazila: z.string({

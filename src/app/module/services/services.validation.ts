@@ -3,8 +3,8 @@ import { z } from 'zod';
 export const servicesValidationZodSchema = z.object({
   body: z.object({
     description: z.string().min(5, 'description must be at least 5 character'),
-    name: z.string({
-      required_error: 'name is required',
+    serviceProviderName: z.string({
+      required_error: 'serviceProviderName is required',
     }),
     phone: z.string({
       required_error: 'phone is required',
