@@ -30,6 +30,9 @@ const adminSchema = new Schema<IUser, UserModal>(
       type: String,
       required: [true, 'upazila is required'],
     },
+    birthdate: {
+      type: String,
+    },
     bloodGroup: {
       type: String,
     },

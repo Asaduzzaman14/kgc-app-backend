@@ -25,7 +25,6 @@ const create = async (
     if (getUser) {
       data.email = getUser?.email;
       data.name = getUser?.name;
-      data.phone = getUser?.phone;
       data.location = getUser?.upazila;
     }
   }

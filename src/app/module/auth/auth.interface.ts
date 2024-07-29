@@ -6,6 +6,7 @@ export type IUser = {
   name: string;
   password: string;
   role: string;
+  birthdate: string;
   phone: string;
   email: string;
   upazila: string;
