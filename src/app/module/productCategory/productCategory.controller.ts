@@ -41,6 +41,7 @@ const getAlldata = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
 const getDataById = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const result = await Services.getSingleData(id);
@@ -53,7 +54,6 @@ const getDataById = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// // update Parts By Id
 const updateData = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const updatedData = req.body;

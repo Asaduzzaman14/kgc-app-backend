@@ -1,7 +1,7 @@
 import { Schema, Types, model } from 'mongoose';
 import { ISubCategory, SubCategoryModal } from './subCategory.interface';
 
-const subCatagorysSchema = new Schema<ISubCategory, SubCategoryModal>(
+const subCategorySchema = new Schema<ISubCategory, SubCategoryModal>(
   {
     name: {
       type: String,
@@ -20,7 +20,7 @@ const subCatagorysSchema = new Schema<ISubCategory, SubCategoryModal>(
     },
     category: {
       type: Types.ObjectId,
-      ref: 'productCategory',
+      ref: 'ProductCategory',
       required: true,
     },
   },
@@ -28,6 +28,6 @@ const subCatagorysSchema = new Schema<ISubCategory, SubCategoryModal>(
 );
 
 export const SubCatagorys = model<ISubCategory, SubCategoryModal>(
-  'subCatagorys',
-  subCatagorysSchema
+  'SubCategory',
+  subCategorySchema
 );

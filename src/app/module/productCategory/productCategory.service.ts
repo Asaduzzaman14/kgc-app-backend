@@ -11,8 +11,6 @@ import { ProductCategorys } from './productCategory.models';
 const create = async (
   data: IProductsCategory
 ): Promise<IProductsCategory | null> => {
-  console.log(data);
-
   const result = await ProductCategorys.create(data);
   if (!result) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to add Category');
@@ -58,7 +56,7 @@ const getAllData = async (
     andCondation.length > 0 ? { $and: andCondation } : {};
 
   const result = await ProductCategorys.find(requestCondetion)
-    .populate('category')
+    .populate('subcategories')
     .sort(sortCondations)
     .skip(skip)
     .limit(limit);

@@ -1,10 +1,10 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
 import {
   IProductsCategory,
   ProductsCategoryModal,
 } from './productCategory.interface';
 
-const productsCategorysSchema = new Schema<
+const productCategorySchema = new Schema<
   IProductsCategory,
   ProductsCategoryModal
 >(
@@ -20,6 +20,12 @@ const productsCategorysSchema = new Schema<
       type: String,
       required: [true, 'description is required'],
     },
+    subcategories: [
+      {
+        type: Types.ObjectId,
+        ref: 'SubCategory',
+      },
+    ],
     status: {
       type: Boolean,
       default: true,
@@ -29,6 +35,6 @@ const productsCategorysSchema = new Schema<
 );
 
 export const ProductCategorys = model<IProductsCategory, ProductsCategoryModal>(
-  'productCategory',
-  productsCategorysSchema
+  'ProductCategory',
+  productCategorySchema
 );

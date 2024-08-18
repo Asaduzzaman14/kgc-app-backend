@@ -4,21 +4,29 @@ import ApiError from '../../../errors/ApiError';
 import calculatePagination from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
+import { ProductCategorys } from '../productCategory/productCategory.models';
 import { customerSearchableFields } from './subCategory.constant';
 import { IFilterRequest, ISubCategory } from './subCategory.interface';
 import { SubCatagorys } from './subCategory.models';
 
 const create = async (data: ISubCategory): Promise<ISubCategory | null> => {
-  console.log(data);
-
-  const result = await SubCatagorys.create(data);
-  if (!result) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to add Category');
+  // Step 1: Create the SubCategory
+  const subCategory = await SubCatagorys.create(data);
+  if (!subCategory) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to add SubCategory');
   }
 
-  return result;
-};
+  // Step 2: Add the SubCategory ID to the Category's subcategories array
+  const category = await ProductCategorys.findById(subCategory.category);
+  if (!category) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
+  }
 
+  category.subcategories.push(subCategory._id);
+  await category.save();
+
+  return subCategory;
+};
 const getAllData = async (
   filters: IFilterRequest,
   pageinationOptions: IPaginationOptions
