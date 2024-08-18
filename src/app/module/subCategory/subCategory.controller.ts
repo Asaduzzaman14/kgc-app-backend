@@ -4,8 +4,8 @@ import { paginationFields } from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
-import { IProductsCategory } from '../productCategory/productCategory.interface';
 import { customerFilterableFields } from './subCategory.constant';
+import { ISubCategory } from './subCategory.interface';
 import { Services } from './subCategory.service';
 
 const create: RequestHandler = catchAsync(
@@ -13,7 +13,7 @@ const create: RequestHandler = catchAsync(
     const { ...data } = req.body;
     const result = await Services.create(data);
 
-    sendResponse<IProductsCategory>(res, {
+    sendResponse<ISubCategory>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'Successfully data added',
@@ -45,7 +45,7 @@ const getDataById = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const result = await Services.getSingleData(id);
 
-  sendResponse<IProductsCategory>(res, {
+  sendResponse<ISubCategory>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Product Category Retrieved Successfully',
@@ -60,7 +60,7 @@ const updateData = catchAsync(async (req: Request, res: Response) => {
 
   const result = await Services.updateDataById(id, updatedData);
 
-  sendResponse<IProductsCategory>(res, {
+  sendResponse<ISubCategory>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Product Category successfully updated',
@@ -74,7 +74,7 @@ const deleteData = catchAsync(async (req: Request, res: Response) => {
 
   const result = await Services.deleteData(id);
 
-  sendResponse<IProductsCategory>(res, {
+  sendResponse<ISubCategory>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Product Category deleted Successfully',
