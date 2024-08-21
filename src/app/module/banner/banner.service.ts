@@ -14,7 +14,9 @@ const create = async (data: IBanner): Promise<IBanner | null> => {
 };
 
 const getAllData = async (): Promise<IBanner[]> => {
-  const result = await Banner.find({});
+  const result = await Banner.find({}).sort({
+    createdAt: -1,
+  });
   return result;
 };
 
@@ -28,7 +30,7 @@ const updateDataById = async (
   paylode: IBanner
 ): Promise<IBanner | null> => {
   console.log(paylode);
-  
+
   const result = await Banner.findByIdAndUpdate({ _id: id }, paylode, {
     new: true,
   });

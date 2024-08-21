@@ -53,7 +53,7 @@ const getDataById = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// // update Parts By Id
+// update Parts By Id
 const updateData = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const updatedData = req.body;
