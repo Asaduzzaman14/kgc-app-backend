@@ -2,6 +2,7 @@ import express from 'express';
 import { AuthRoutes } from '../module/auth/auth.route';
 import { BannerRoutes } from '../module/banner/banner.route';
 import { NoticeRoutes } from '../module/notice/notice.route';
+import { ProductRoutes } from '../module/product/product.route';
 import { ProductCatagoryRoute } from '../module/productCategory/productCategory.route';
 import { ScrollTextRoutes } from '../module/scrollText/scrollText.route';
 import { ServicesRoutes } from '../module/services/services.route';
@@ -49,6 +50,10 @@ const moduleRoutes = [
   {
     path: '/sub-categorys',
     routes: SubCatagoryRoutes,
+  },
+  {
+    path: '/products',
+    routes: ProductRoutes,
   },
 ];
 
