@@ -7,18 +7,16 @@ import { Services } from './product.service';
 
 const create: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    // const { ...data } = req.body;
-
     const baseUrl = 'http://localhost:5000';
     const multerReq = req as any;
-    // const { id } = multerReq.params;
     const data = multerReq.body;
     const files = multerReq.files;
+    const user = req.user;
 
     const processFile = async (fileKey: string, dataKey: string) => {
       const file = files?.[fileKey]?.[0];
       if (file) {
-        data[dataKey] = `${baseUrl}/uploads/users/${file.filename}`;
+        data[dataKey] = `${baseUrl}/uploads/${file.filename}`;
       }
     };
 
@@ -27,16 +25,53 @@ const create: RequestHandler = catchAsync(
 
     const newData = {
       ...data,
+      userId: user!._id,
       img: data.img,
       img2: data.img2,
     };
-    console.log(newData);
 
     const result = await Services.create(newData);
     sendResponse<IProduct>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'Successfully  product added',
+      data: result,
+    });
+  }
+);
+
+// // update Parts By Id
+const updateData: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const baseUrl = 'http://localhost:5000';
+    const multerReq = req as any;
+
+    const data = multerReq.body;
+    const files = multerReq.files;
+
+    const processFile = async (fileKey: string, dataKey: string) => {
+      const file = files?.[fileKey]?.[0];
+      if (file) {
+        data[dataKey] = `${baseUrl}/uploads/${file.filename}`;
+      }
+    };
+
+    await processFile('img', 'img');
+    await processFile('img2', 'img2');
+
+    const updatedData = {
+      ...data,
+      img: data.img,
+      img2: data.img2,
+    };
+
+    const result = await Services.updateDataById(id, updatedData);
+
+    sendResponse<IProduct>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Services successfully updated',
       data: result,
     });
   }
@@ -65,21 +100,6 @@ const getDataById = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// // update Parts By Id
-const updateData = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const updatedData = req.body;
-
-  const result = await Services.updateDataById(id, updatedData);
-
-  sendResponse<IProduct>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Services successfully updated',
-    data: result,
-  });
-});
-
 // // Delete Parts
 const deleteData = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
@@ -94,10 +114,24 @@ const deleteData = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getMyAlldata = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user;
+  console.log(user, 'users');
+
+  const result = await Services.getMyAlldata(user);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Data Retrieved Succesfully',
+    data: result,
+  });
+});
 export const Controller = {
   create,
   getAlldata,
   updateData,
   getDataById,
   deleteData,
+  getMyAlldata,
 };

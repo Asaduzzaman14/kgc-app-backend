@@ -6,6 +6,7 @@ import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IUser } from '../auth/auth.interface';
 import { User } from '../auth/auth.model';
+import { Products } from '../product/product.models';
 import { ServiceModal } from '../services/services.models';
 import { IFilterRequest } from '../servicesCatagory/servicesCatagory.interface';
 import { donnorSearchableFields } from './user.constant';
@@ -88,8 +89,6 @@ const updateDataById = async (
   id: string,
   paylode: IUser
 ): Promise<IUser | null> => {
-  console.log(paylode);
-
   const result = await User.findByIdAndUpdate({ _id: id }, paylode, {
     new: true,
   });
@@ -100,9 +99,7 @@ const deleteData = async (id: string): Promise<any | null> => {
   console.log(id);
 
   try {
-    // Find the user by id and select only the email field
     const user = await User.findById(id, { email: 1 });
-    console.log(user, 'finded');
 
     if (!user) {
       console.error('User not found');
@@ -110,8 +107,8 @@ const deleteData = async (id: string): Promise<any | null> => {
     }
 
     // Delete services associated with the user's email
-    const ser = await ServiceModal.deleteMany({ email: user.email });
-    console.log(ser);
+    await ServiceModal.deleteMany({ email: user.email });
+    await Products.deleteMany({ userId: user._id });
 
     // Delete the user
     const result = await User.findOneAndDelete({ _id: id });

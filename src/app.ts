@@ -9,9 +9,6 @@ import cookieParser from 'cookie-parser';
 
 const app: Application = express();
 
-// const allowedOrigins = ['https://freeask.org', 'http://localhost:3000'];
-// app.use(cors({ origin: allowedOrigins, credentials: true }));
-
 app.use(cors());
 app.use(cookieParser());
 

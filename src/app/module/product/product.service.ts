@@ -1,11 +1,16 @@
 import httpStatus from 'http-status';
+import { JwtPayload } from 'jsonwebtoken';
 import ApiError from '../../../errors/ApiError';
 import { IProduct } from './product.interface';
 import { Products } from './product.models';
 
 const create = async (data: IProduct): Promise<IProduct | null> => {
   console.log(data);
-  return;
+
+  if (!data.userId) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'user Token not found');
+  }
+
   const result = await Products.create(data);
   if (!result) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to uplode Product');
@@ -15,9 +20,8 @@ const create = async (data: IProduct): Promise<IProduct | null> => {
 };
 
 const getAllData = async (): Promise<IProduct[]> => {
-  const result = await Products.find({}).sort({
-    createdAt: -1,
-  });
+  const result = await Products.find({}).populate('userId');
+
   return result;
 };
 
@@ -30,8 +34,6 @@ const updateDataById = async (
   id: string,
   paylode: IProduct
 ): Promise<IProduct | null> => {
-  console.log(paylode);
-
   const result = await Products.findByIdAndUpdate({ _id: id }, paylode, {
     new: true,
   });
@@ -43,10 +45,26 @@ const deleteData = async (id: string): Promise<IProduct | null> => {
   return result;
 };
 
+const getMyAlldata = async (
+  user: JwtPayload | null | any
+): Promise<IProduct[] | null> => {
+  console.log(user);
+
+  if (!user._id) {
+    throw new ApiError(httpStatus.BAD_GATEWAY, 'user not found');
+  }
+  const result = await Products.find({
+    userId: user._id,
+  });
+  return result;
+};
+
 export const Services = {
   create,
   getAllData,
   getSingleData,
   updateDataById,
   deleteData,
+  //
+  getMyAlldata,
 };

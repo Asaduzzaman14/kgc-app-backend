@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
 import { IProduct, ProductModal } from './product.interface';
 
 const productSchema = new Schema<IProduct, ProductModal>(
@@ -25,6 +25,11 @@ const productSchema = new Schema<IProduct, ProductModal>(
     },
     discountPrice: {
       type: String,
+    },
+    userId: {
+      type: Types.ObjectId,
+      ref: 'users', // This references the 'users' collection
+      required: true,
     },
     img: {
       type: String,

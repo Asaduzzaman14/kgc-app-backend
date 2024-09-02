@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
+import { IUser } from '../auth/auth.interface';
 
 export type IProduct = {
   name: string;
@@ -8,6 +9,7 @@ export type IProduct = {
   brand: string;
   price: string;
   discountPrice: string;
+  userId: Types.ObjectId | IUser;
 
   img?: string;
   img2?: string;

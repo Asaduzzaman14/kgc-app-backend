@@ -6,6 +6,11 @@ import { Controller } from './product.controller';
 
 const router = express.Router();
 
+router.get(
+  '/get-my-products',
+  auth(ENUM_USER_ROLE.USER),
+  Controller.getMyAlldata
+);
 router.post(
   '/',
 
@@ -17,12 +22,32 @@ router.post(
   Controller.create
 );
 
-router.get('/:id', auth(ENUM_USER_ROLE.ADMIN), Controller.getDataById);
+router.get(
+  '/:id',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
+  Controller.getDataById
+);
 
-router.patch('/:id', auth(ENUM_USER_ROLE.ADMIN), Controller.updateData);
+router.patch(
+  '/:id',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
+  FileUploadHelper.upload.fields([
+    { name: 'img', maxCount: 1 },
+    { name: 'img2', maxCount: 1 },
+  ]),
+  Controller.updateData
+);
 
-router.delete('/:id', auth(ENUM_USER_ROLE.ADMIN), Controller.deleteData);
+router.delete(
+  '/:id',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
+  Controller.deleteData
+);
 
-router.get('/', Controller.getAlldata);
+router.get(
+  '/',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
+  Controller.getAlldata
+);
 
 export const ProductRoutes = router;
