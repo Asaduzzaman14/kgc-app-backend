@@ -61,9 +61,10 @@ const getAllData = async (
   const requestCondetion =
     andCondation.length > 0 ? { $and: andCondation } : {};
 
-  const result = await ServicesCatagory.find(requestCondetion).sort(
-    sortCondations
-  );
+  const result = await ServicesCatagory.find(requestCondetion).sort({
+    serialNo: 1,
+    createdAt: -1,
+  });
   // .skip(skip)
   // .limit(limit);
 
