@@ -77,6 +77,11 @@ const getSingleData = async (id: string): Promise<IProductsCategory | null> => {
   return result;
 };
 
+const getDataById = async (id: string): Promise<IProductsCategory | null> => {
+  const result = await ProductCategorys.findById(id);
+  return result;
+};
+
 const updateDataById = async (
   id: string,
   paylode: IProductsCategory
@@ -105,4 +110,5 @@ export const Services = {
   getSingleData,
   updateDataById,
   deleteData,
+  getDataById,
 };

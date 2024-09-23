@@ -1,16 +1,25 @@
 import { z } from 'zod';
-const authValidationZodSchema = z.object({
-  body: z.object({
-    email: z.string({
-      required_error: 'email is required',
-    }),
 
-    password: z.string({
-      required_error: 'Password is required',
+const catagoryValidationZodSchema = z.object({
+  data: z.object({
+    name: z.string({
+      required_error: 'name is required',
+    }),
+    description: z.string({
+      required_error: 'description is required',
     }),
   }),
 });
 
-export const UserValidation = {
-  authValidationZodSchema,
+const updateCatagoryValidationZodSchema = z.object({
+  data: z.object({
+    name: z.string().optional(),
+    description: z.string().optional(),
+    status: z.string().optional(),
+  }),
+});
+
+export const catagoryValidation = {
+  catagoryValidationZodSchema,
+  updateCatagoryValidationZodSchema,
 };

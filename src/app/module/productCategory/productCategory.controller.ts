@@ -1,6 +1,7 @@
 import { Request, RequestHandler, Response } from 'express';
 import httpStatus from 'http-status';
 import { paginationFields } from '../../../constants/pagination';
+import { deleteImage } from '../../../helpers/fileDelete';
 import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
@@ -10,8 +11,16 @@ import { Services } from './productCategory.service';
 
 const create: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const { ...data } = req.body;
-    const result = await Services.create(data);
+    const data = req.body;
+    const file = req?.file;
+
+    if (file) {
+      const baseUrl = `${req.protocol}://${req.get('host')}`;
+      const imageUrl = `${baseUrl}/uploads/${file.filename}`;
+      data.data.img = imageUrl;
+    }
+
+    const result = await Services.create(data.data);
 
     sendResponse<IProductsCategory>(res, {
       statusCode: httpStatus.OK,
@@ -55,10 +64,28 @@ const getDataById = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateData = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const updatedData = req.body;
+  const { id } = req.params;
+  // console.log(id);
+  // console.log(req.body);
 
-  const result = await Services.updateDataById(id, updatedData);
+  const data = req.body;
+  const file = req?.file;
+
+  if (file) {
+    // Fetch the existing record to get the current image URL
+    const existingRecord = await Services.getDataById(id);
+    const oldImageUrl = existingRecord?.img;
+    if (oldImageUrl) {
+      deleteImage(oldImageUrl);
+    }
+    // const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const imageUrl = `https://api.tizara.co/uploads/${file!.filename}`;
+    // const imageUrl = `http://localhost:5000/uploads/${file!.filename}`;
+
+    data.data.img = imageUrl;
+  }
+
+  const result = await Services.updateDataById(id, data.data);
 
   sendResponse<IProductsCategory>(res, {
     statusCode: httpStatus.OK,
