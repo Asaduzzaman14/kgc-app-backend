@@ -1,5 +1,6 @@
 import { Request, RequestHandler, Response } from 'express';
 import httpStatus from 'http-status';
+import { baseUrl } from '../../../constants/config';
 import { paginationFields } from '../../../constants/pagination';
 import { deleteImage } from '../../../helpers/fileDelete';
 import catchAsync from '../../../shared/catchAsync';
@@ -79,7 +80,7 @@ const updateData = catchAsync(async (req: Request, res: Response) => {
       deleteImage(oldImageUrl);
     }
     // const baseUrl = `${req.protocol}://${req.get('host')}`;
-    const imageUrl = `https://api.tizara.co/uploads/${file!.filename}`;
+    const imageUrl = `${baseUrl}/uploads/${file!.filename}`;
     // const imageUrl = `http://localhost:5000/uploads/${file!.filename}`;
 
     data.data.img = imageUrl;
@@ -98,6 +99,15 @@ const updateData = catchAsync(async (req: Request, res: Response) => {
 // Delete Parts
 const deleteData = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
+
+  const existingRecord = await Services.getDataById(id);
+
+  if (existingRecord) {
+    const oldImageUrl = existingRecord?.img;
+    if (oldImageUrl) {
+      deleteImage(oldImageUrl);
+    }
+  }
 
   const result = await Services.deleteData(id);
 
