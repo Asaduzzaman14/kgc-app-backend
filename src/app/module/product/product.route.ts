@@ -14,7 +14,6 @@ router.get(
 
 router.post(
   '/',
-
   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
   FileUploadHelper.upload.fields([
     { name: 'img', maxCount: 1 },

@@ -64,6 +64,7 @@ const getAllData = async (
     andCondation.length > 0 ? { $and: andCondation } : {};
 
   const result = await SubCatagorys.find(requestCondetion)
+    .populate('category')
     .sort(sortCondations)
     .skip(skip)
     .limit(limit);

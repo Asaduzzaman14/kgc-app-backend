@@ -29,6 +29,7 @@ const create: RequestHandler = catchAsync(
       img: data.img,
       img2: data.img2,
     };
+    console.log(newData);
 
     const result = await Services.create(newData);
     sendResponse<IProduct>(res, {
