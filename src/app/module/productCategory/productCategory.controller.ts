@@ -2,7 +2,7 @@ import { Request, RequestHandler, Response } from 'express';
 import httpStatus from 'http-status';
 import { baseUrl } from '../../../constants/config';
 import { paginationFields } from '../../../constants/pagination';
-import { deleteImage } from '../../../helpers/fileDelete';
+import { deleteUserImage } from '../../../helpers/fileDelete';
 import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
@@ -77,13 +77,13 @@ const updateData = catchAsync(async (req: Request, res: Response) => {
     const existingRecord = await Services.getDataById(id);
     const oldImageUrl = existingRecord?.icon;
     if (oldImageUrl) {
-      deleteImage(oldImageUrl);
+      deleteUserImage(oldImageUrl);
     }
     // const baseUrl = `${req.protocol}://${req.get('host')}`;
     const imageUrl = `${baseUrl}/uploads/${file!.filename}`;
     // const imageUrl = `http://localhost:5000/uploads/${file!.filename}`;
 
-    data.data.img = imageUrl;
+    data.data.icon = imageUrl;
   }
 
   const result = await Services.updateDataById(id, data.data);
@@ -105,7 +105,7 @@ const deleteData = catchAsync(async (req: Request, res: Response) => {
   if (existingRecord) {
     const oldImageUrl = existingRecord?.icon;
     if (oldImageUrl) {
-      deleteImage(oldImageUrl);
+      deleteUserImage(oldImageUrl);
     }
   }
 

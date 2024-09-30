@@ -1,37 +1,39 @@
 import { existsSync, unlinkSync } from 'fs';
 import path from 'path';
 
-export const deleteImage = (fileUrl: string) => {
-  console.log('File URL:', fileUrl);
-
-  // Extract the path after 'uploads'
+export const deleteUserImage = (fileUrl: string) => {
   const splitIndex = fileUrl.indexOf('uploads') + 'uploads'.length;
 
-  if (splitIndex) {
-    const imagePublicPath = fileUrl.substring(splitIndex); // Path relative to the 'uploads' folder
-    console.log('Relative image path:', imagePublicPath);
+  if (splitIndex > 0) {
+    const imagePublicPath = fileUrl
+      .substring(splitIndex)
+      .replace(/\\/g, '/')
+      .replace(/^\/+/, '');
 
-    // Resolve the correct upload directory path
-    const uploadDirPath = path.join(__dirname, '../../uploads'); // Path to 'uploads' folder
-    const imagePathInServer = path.join(uploadDirPath, imagePublicPath); // Full path to image on server
+    const uploadDirPath = path.join(process.cwd(), 'uploads');
+    const imagePathInServer = path.join(uploadDirPath, imagePublicPath);
 
-    console.log('Full image path on server:', imagePathInServer);
+    // console.log('Image Path In Server:', imagePathInServer);
 
-    // Check if the file exists and delete it
     if (existsSync(imagePathInServer)) {
-      console.log('File exists, deleting...');
-      unlinkSync(imagePathInServer);
-      console.log('File deleted successfully');
+      // console.log('File exists, deleting...');
+      try {
+        unlinkSync(imagePathInServer);
+        // console.log('File deleted successfully');
+        return true;
+      } catch (err) {
+        // console.error('Error deleting file:', err);
+        return false;
+      }
     } else {
       console.log('File does not exist:', imagePathInServer);
+      return false;
     }
-    return true;
   }
-
-  return false; // Return false if the path couldn't be constructed
+  return false;
 };
 
-export const deleteUserImage = (fileUrl: string) => {
+export const deleteUserImage2 = (fileUrl: string) => {
   // console.log('File URL:', fileUrl);
 
   // Extract the path after 'uploads/users/'
