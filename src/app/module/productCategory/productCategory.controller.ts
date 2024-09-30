@@ -18,7 +18,7 @@ const create: RequestHandler = catchAsync(
     if (file) {
       const baseUrl = `${req.protocol}://${req.get('host')}`;
       const imageUrl = `${baseUrl}/uploads/${file.filename}`;
-      data.data.img = imageUrl;
+      data.data.icon = imageUrl;
     }
 
     const result = await Services.create(data.data);
@@ -75,7 +75,7 @@ const updateData = catchAsync(async (req: Request, res: Response) => {
   if (file) {
     // Fetch the existing record to get the current image URL
     const existingRecord = await Services.getDataById(id);
-    const oldImageUrl = existingRecord?.img;
+    const oldImageUrl = existingRecord?.icon;
     if (oldImageUrl) {
       deleteImage(oldImageUrl);
     }
@@ -103,7 +103,7 @@ const deleteData = catchAsync(async (req: Request, res: Response) => {
   const existingRecord = await Services.getDataById(id);
 
   if (existingRecord) {
-    const oldImageUrl = existingRecord?.img;
+    const oldImageUrl = existingRecord?.icon;
     if (oldImageUrl) {
       deleteImage(oldImageUrl);
     }

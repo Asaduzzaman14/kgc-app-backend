@@ -59,6 +59,15 @@ const getMyAlldata = async (
   return result;
 };
 
+const getById = async (id: string): Promise<any> => {
+  const result = await Products.findById(id);
+  if (!result) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User Not Found');
+  }
+
+  return result;
+};
+
 export const Services = {
   create,
   getAllData,
@@ -67,4 +76,5 @@ export const Services = {
   deleteData,
   //
   getMyAlldata,
+  getById,
 };

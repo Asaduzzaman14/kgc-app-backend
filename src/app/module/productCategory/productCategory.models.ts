@@ -13,7 +13,7 @@ const productCategorySchema = new Schema<
       type: String,
       required: [true, 'name is required'],
     },
-    img: {
+    icon: {
       type: String,
     },
     description: {

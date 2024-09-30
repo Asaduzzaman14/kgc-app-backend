@@ -10,7 +10,7 @@ const router = express.Router();
 router.post(
   '/',
   auth(ENUM_USER_ROLE.ADMIN),
-  FileUploadHelper.upload.single('img'),
+  FileUploadHelper.upload.single('icon'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = catagoryValidation.catagoryValidationZodSchema.parse(
       JSON.parse(req.body.data)
@@ -24,7 +24,7 @@ router.get('/:id', Controller.getDataById);
 router.patch(
   '/:id',
   auth(ENUM_USER_ROLE.ADMIN),
-  FileUploadHelper.upload.single('img'),
+  FileUploadHelper.upload.single('icon'),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = catagoryValidation.updateCatagoryValidationZodSchema.parse(
       JSON.parse(req.body.data)

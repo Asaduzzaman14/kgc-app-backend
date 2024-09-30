@@ -1,9 +1,12 @@
+/* eslint-disable no-undef */
 import { Request, RequestHandler, Response } from 'express';
 import httpStatus from 'http-status';
+import { baseUrl } from '../../../constants/config';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { IProduct } from './product.interface';
 import { Services } from './product.service';
+import { deleteUserImage } from './product.utils';
 
 const create: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
@@ -16,7 +19,7 @@ const create: RequestHandler = catchAsync(
     const processFile = async (fileKey: string, dataKey: string) => {
       const file = files?.[fileKey]?.[0];
       if (file) {
-        data[dataKey] = `${baseUrl}/uploads/${file.filename}`;
+        data[dataKey] = `${baseUrl}/uploads/users/${file.filename}`;
       }
     };
 
@@ -40,21 +43,32 @@ const create: RequestHandler = catchAsync(
     });
   }
 );
+type MulterRequest = {
+  files?: {
+    [fieldname: string]: Express.Multer.File[];
+  };
+} & Request;
 
-// // update Parts By Id
+// update By Id
 const updateData: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const baseUrl = 'http://localhost:5000';
-    const multerReq = req as any;
-
+    const multerReq = req as MulterRequest;
+    const { id } = multerReq.params;
     const data = multerReq.body;
     const files = multerReq.files;
 
     const processFile = async (fileKey: string, dataKey: string) => {
       const file = files?.[fileKey]?.[0];
       if (file) {
-        data[dataKey] = `${baseUrl}/uploads/${file.filename}`;
+        data[dataKey] = `${baseUrl}/uploads/users/${file.filename}`;
+
+        const existingRecord = await Services.getById(id);
+        const oldImageUrl = existingRecord?.[dataKey];
+        console.log(oldImageUrl, 'oldImageUrl');
+
+        if (oldImageUrl) {
+          deleteUserImage(oldImageUrl);
+        }
       }
     };
 

@@ -14,11 +14,11 @@ router.get(
 
 router.post(
   '/',
-  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
   FileUploadHelper.upload.fields([
     { name: 'img', maxCount: 1 },
     { name: 'img2', maxCount: 1 },
   ]),
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
   Controller.create
 );
 
@@ -30,11 +30,11 @@ router.get(
 
 router.patch(
   '/:id',
-  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
   FileUploadHelper.upload.fields([
     { name: 'img', maxCount: 1 },
     { name: 'img2', maxCount: 1 },
   ]),
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
   Controller.updateData
 );
 

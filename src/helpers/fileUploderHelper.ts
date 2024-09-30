@@ -8,7 +8,12 @@ function randomIntFromInterval(min: number, max: number): number {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/');
+    let folderPath = 'uploads/';
+
+    if (file.fieldname === 'img' || file.fieldname === 'img2') {
+      folderPath = 'uploads/users/';
+    }
+    cb(null, folderPath);
   },
   filename: function (req, file, cb) {
     const randomString = randomIntFromInterval(100, 999).toString();
@@ -21,8 +26,10 @@ const upload = multer({
   storage: storage,
 
   fileFilter: (req, file, cb) => {
+    // console.log(file, 'file');
+
     const filetypes = /png|jpg|jpeg/;
-    const mimetype = filetypes.test(file.mimetype);
+    const mimetype = filetypes.test(file?.mimetype);
     const extname = filetypes.test(
       path.extname(file.originalname).toLowerCase()
     );
