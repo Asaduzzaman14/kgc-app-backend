@@ -3,6 +3,7 @@ import { JwtPayload } from 'jsonwebtoken';
 import ApiError from '../../../errors/ApiError';
 import { IProduct } from './product.interface';
 import { Products } from './product.models';
+import { deleteUserImage } from './product.utils';
 
 const create = async (data: IProduct): Promise<IProduct | null> => {
   console.log(data);
@@ -41,6 +42,26 @@ const updateDataById = async (
 };
 
 const deleteData = async (id: string): Promise<IProduct | null> => {
+  const existingRecord = await Products.findById(id);
+
+  if (!existingRecord) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Data Not found');
+  }
+
+  if (existingRecord) {
+    const oldImageUrl = existingRecord?.img;
+    if (oldImageUrl) {
+      deleteUserImage(oldImageUrl);
+    }
+  }
+
+  if (existingRecord) {
+    const oldImageUrl = existingRecord?.img2;
+    if (oldImageUrl) {
+      deleteUserImage(oldImageUrl);
+    }
+  }
+
   const result = await Products.findByIdAndDelete(id);
   return result;
 };
