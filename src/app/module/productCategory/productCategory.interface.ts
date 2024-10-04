@@ -6,6 +6,7 @@ export type IProductsCategory = {
   description: string;
   status: boolean;
   subcategories: Types.ObjectId[]; // Array of ObjectIds or subcategory objects
+  serialNo: number;
 };
 
 export type ProductsCategoryModal = Model<
@@ -16,4 +17,5 @@ export type ProductsCategoryModal = Model<
 export type IFilterRequest = {
   searchTerm?: string;
   name?: string;
+  title?: string;
 };

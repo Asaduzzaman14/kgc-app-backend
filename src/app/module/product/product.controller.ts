@@ -2,8 +2,11 @@
 import { Request, RequestHandler, Response } from 'express';
 import httpStatus from 'http-status';
 import { baseUrl } from '../../../constants/config';
+import { paginationFields } from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsync';
+import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
+import { customerFilterableFields } from './product.constant';
 import { IProduct } from './product.interface';
 import { Services } from './product.service';
 import { deleteUserImage } from './product.utils';
@@ -94,7 +97,12 @@ const updateData: RequestHandler = catchAsync(
 
 //  get All
 const getAlldata = catchAsync(async (req: Request, res: Response) => {
-  const result = await Services.getAllData();
+  const query = req?.query;
+
+  const paginationOptions = pick(query, paginationFields);
+  const filters = pick(query, customerFilterableFields);
+
+  const result = await Services.getAllData(filters, paginationOptions);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

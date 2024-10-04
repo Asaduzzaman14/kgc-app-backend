@@ -28,7 +28,18 @@ const productSchema = new Schema<IProduct, ProductModal>(
     },
     userId: {
       type: Types.ObjectId,
-      ref: 'users', // This references the 'users' collection
+      ref: 'users',
+      required: true,
+    },
+
+    categoryId: {
+      type: Types.ObjectId,
+      ref: 'ProductCategory',
+      required: true,
+    },
+    subCategoryId: {
+      type: Types.ObjectId,
+      ref: 'SubCategory',
       required: true,
     },
     img: {

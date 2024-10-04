@@ -1,6 +1,12 @@
 import httpStatus from 'http-status';
 import { JwtPayload } from 'jsonwebtoken';
+import { SortOrder } from 'mongoose';
 import ApiError from '../../../errors/ApiError';
+import calculatePagination from '../../../helpers/paginationHelper';
+import { IGenericResponse } from '../../../interfaces/common';
+import { IPaginationOptions } from '../../../interfaces/pagination';
+import { IFilterRequest } from '../productCategory/productCategory.interface';
+import { customerSearchableFields } from './product.constant';
 import { IProduct } from './product.interface';
 import { Products } from './product.models';
 import { deleteUserImage } from './product.utils';
@@ -20,10 +26,61 @@ const create = async (data: IProduct): Promise<IProduct | null> => {
   return result;
 };
 
-const getAllData = async (): Promise<IProduct[]> => {
-  const result = await Products.find({}).populate('userId');
+const getAllData = async (
+  filters: IFilterRequest,
+  pageinationOptions: IPaginationOptions
+): Promise<IGenericResponse<IProduct[]>> => {
+  // pagination helpers
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePagination(pageinationOptions);
 
-  return result;
+  const { searchTerm, ...filtersData } = filters;
+  console.log(searchTerm);
+
+  const andCondation = [];
+
+  if (searchTerm) {
+    andCondation.push({
+      $or: customerSearchableFields.map(field => ({
+        [field]: { $regex: searchTerm, $options: 'i' },
+      })),
+    });
+  }
+
+  if (Object.keys(filtersData).length) {
+    andCondation.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    });
+  }
+
+  const sortCondations: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortCondations[sortBy] = sortOrder;
+  }
+  const requestCondition =
+    andCondation.length > 0 ? { $and: andCondation } : {};
+
+  const result = await Products.find(requestCondition)
+    .populate('userId')
+    .populate('categoryId')
+    .populate('subCategoryId')
+    .sort(sortCondations)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Products.countDocuments(requestCondition);
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
 
 const getSingleData = async (id: string): Promise<IProduct | null> => {

@@ -24,11 +24,16 @@ const productCategorySchema = new Schema<
       {
         type: Types.ObjectId,
         ref: 'SubCategory',
+        select: 0,
       },
     ],
     status: {
       type: Boolean,
       default: true,
+    },
+    serialNo: {
+      type: Number,
+      required: [true, 'serialNo is required'],
     },
   },
   { timestamps: true }

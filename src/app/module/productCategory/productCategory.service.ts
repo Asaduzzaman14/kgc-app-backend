@@ -11,6 +11,7 @@ import { ProductCategorys } from './productCategory.models';
 const create = async (
   data: IProductsCategory
 ): Promise<IProductsCategory | null> => {
+  data.serialNo = 9999;
   const result = await ProductCategorys.create(data);
   if (!result) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to add Category');

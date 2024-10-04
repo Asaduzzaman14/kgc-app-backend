@@ -1,14 +1,16 @@
 export const customerSearchableFields = [
-  'searchTerm',
   'name',
-  'phone',
-  'email',
-  'servicesCatagory',
+  'title',
+  'categoryId.name',
+  'subCategoryId.name',
 ];
 
 export const customerFilterableFields = [
+  'searchTerm',
   'name',
   'phone',
-  'email',
-  'servicesCatagory',
+  'price',
+  'categoryId',
+  'subCategoryId',
+  'userId',
 ];
