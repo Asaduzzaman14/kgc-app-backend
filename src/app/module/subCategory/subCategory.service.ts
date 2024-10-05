@@ -12,6 +12,8 @@ import { SubCatagorys } from './subCategory.models';
 const create = async (data: ISubCategory): Promise<ISubCategory | null> => {
   // Step 1: Create the SubCategory
   const subCategory = await SubCatagorys.create(data);
+  console.log(subCategory);
+
   if (!subCategory) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to add SubCategory');
   }

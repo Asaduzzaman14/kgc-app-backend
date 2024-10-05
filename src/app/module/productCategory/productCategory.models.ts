@@ -24,7 +24,6 @@ const productCategorySchema = new Schema<
       {
         type: Types.ObjectId,
         ref: 'SubCategory',
-        select: 0,
       },
     ],
     status: {
