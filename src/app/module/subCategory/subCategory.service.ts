@@ -34,7 +34,7 @@ const getAllData = async (
   pageinationOptions: IPaginationOptions
 ): Promise<IGenericResponse<ISubCategory[]>> => {
   // pagination helpers
-  const { page, limit, skip, sortBy, sortOrder } =
+  const { page, limit, sortBy, sortOrder } =
     calculatePagination(pageinationOptions);
 
   const { searchTerm, ...filtersData } = filters;
@@ -67,9 +67,9 @@ const getAllData = async (
 
   const result = await SubCatagorys.find(requestCondetion)
     .populate('category')
-    .sort(sortCondations)
-    .skip(skip)
-    .limit(limit);
+    .sort(sortCondations);
+  // .skip(skip)
+  // .limit(limit);
 
   const total = await SubCatagorys.countDocuments();
   return {
