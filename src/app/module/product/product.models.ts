@@ -48,6 +48,9 @@ const productSchema = new Schema<IProduct, ProductModal>(
     img2: {
       type: String,
     },
+    img3: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

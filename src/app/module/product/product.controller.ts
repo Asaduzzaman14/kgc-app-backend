@@ -13,7 +13,6 @@ import { deleteUserImage } from './product.utils';
 
 const create: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const baseUrl = 'http://localhost:5000';
     const multerReq = req as any;
     const data = multerReq.body;
     const files = multerReq.files;
@@ -28,12 +27,14 @@ const create: RequestHandler = catchAsync(
 
     await processFile('img', 'img');
     await processFile('img2', 'img2');
+    await processFile('img3', 'img3');
 
     const newData = {
       ...data,
       userId: user!._id,
       img: data.img,
       img2: data.img2,
+      img3: data.img3,
     };
     console.log(newData);
 
@@ -77,11 +78,13 @@ const updateData: RequestHandler = catchAsync(
 
     await processFile('img', 'img');
     await processFile('img2', 'img2');
+    await processFile('img3', 'img3');
 
     const updatedData = {
       ...data,
       img: data.img,
       img2: data.img2,
+      img3: data.img3,
     };
 
     const result = await Services.updateDataById(id, updatedData);

@@ -17,6 +17,7 @@ export type IProduct = {
 
   img?: string;
   img2?: string;
+  img3?: string;
 };
 
 export type ProductModal = Model<IProduct>;

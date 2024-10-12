@@ -65,7 +65,10 @@ const getAllData = async (
 
   const result = await Products.find(requestCondition)
     .populate('userId')
-    .populate('categoryId')
+    .populate({
+      path: 'categoryId',
+      select: '-subcategories',
+    })
     .populate('subCategoryId')
     .sort(sortCondations)
     .skip(skip)
@@ -84,7 +87,13 @@ const getAllData = async (
 };
 
 const getSingleData = async (id: string): Promise<IProduct | null> => {
-  const result = await Products.findById(id);
+  const result = await Products.findById(id)
+    .populate('userId')
+    .populate({
+      path: 'categoryId',
+      select: '-subcategories',
+    })
+    .populate('subCategoryId');
   return result;
 };
 
@@ -114,6 +123,13 @@ const deleteData = async (id: string): Promise<IProduct | null> => {
 
   if (existingRecord) {
     const oldImageUrl = existingRecord?.img2;
+    if (oldImageUrl) {
+      deleteUserImage(oldImageUrl);
+    }
+  }
+
+  if (existingRecord) {
+    const oldImageUrl = existingRecord?.img3;
     if (oldImageUrl) {
       deleteUserImage(oldImageUrl);
     }

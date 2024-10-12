@@ -10,7 +10,11 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     let folderPath = 'uploads/';
 
-    if (file.fieldname === 'img' || file.fieldname === 'img2') {
+    if (
+      file.fieldname === 'img' ||
+      file.fieldname === 'img2' ||
+      file.fieldname === 'img3'
+    ) {
       folderPath = 'uploads/users/';
     }
     cb(null, folderPath);

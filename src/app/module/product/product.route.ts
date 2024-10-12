@@ -17,6 +17,7 @@ router.post(
   FileUploadHelper.upload.fields([
     { name: 'img', maxCount: 1 },
     { name: 'img2', maxCount: 1 },
+    { name: 'img3', maxCount: 1 },
   ]),
   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
   Controller.create
@@ -33,6 +34,7 @@ router.patch(
   FileUploadHelper.upload.fields([
     { name: 'img', maxCount: 1 },
     { name: 'img2', maxCount: 1 },
+    { name: 'img3', maxCount: 1 },
   ]),
   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.USER),
   Controller.updateData
