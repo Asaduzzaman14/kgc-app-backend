@@ -4,6 +4,8 @@ import ApiError from '../../../errors/ApiError';
 import calculatePagination from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
+import { Products } from '../product/product.models';
+import { SubCatagorys } from '../subCategory/subCategory.models';
 import { customerSearchableFields } from './productCategory.constant';
 import { IFilterRequest, IProductsCategory } from './productCategory.interface';
 import { ProductCategorys } from './productCategory.models';
@@ -98,7 +100,25 @@ const updateDataById = async (
 };
 
 const deleteData = async (id: string): Promise<IProductsCategory | null> => {
-  // const service = await ServiceModal.deleteMany({ ProductCategorys: id });
+  const category = await ProductCategorys.findById(id).populate(
+    'subcategories'
+  );
+
+  if (!category) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Product category not found');
+  }
+
+  const productsInCategory = await Products.countDocuments({ categoryId: id });
+  console.log(productsInCategory, 'productsInCategory');
+
+  if (productsInCategory > 0) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      `Cannot delete category: There are ${productsInCategory} products associated with this category.`
+    );
+  }
+
+  await SubCatagorys.deleteMany({ category: id });
 
   const result = await ProductCategorys.findByIdAndDelete(id);
 

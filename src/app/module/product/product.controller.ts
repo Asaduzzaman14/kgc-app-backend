@@ -126,7 +126,7 @@ const getDataById = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// // Delete Parts
+// Delete Parts
 const deleteData = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
 
