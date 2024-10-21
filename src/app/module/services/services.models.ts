@@ -37,6 +37,10 @@ const servicesCatagorysSchema = new Schema<IServices, ServicesModal>(
       required: [true, 'location is required'],
     },
 
+    token: {
+      type: String,
+    },
+
     servicesCatagory: {
       type: Types.ObjectId,
       ref: 'ServicesCatagory',

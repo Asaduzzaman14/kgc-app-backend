@@ -28,6 +28,7 @@ const create = async (
       data.location = getUser?.upazila;
     }
   }
+  console.log(data, 'datadata');
 
   const newService = await ServiceModal.create(data);
   console.log(newService);

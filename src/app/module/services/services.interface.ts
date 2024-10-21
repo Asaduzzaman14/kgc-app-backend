@@ -12,6 +12,7 @@ export type IServices = {
   serviceProviderName: string;
   addressDegree: string;
   location: string;
+  token: string;
   status: boolean;
   serialNo: number;
 

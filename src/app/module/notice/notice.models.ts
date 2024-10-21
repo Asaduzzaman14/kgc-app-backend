@@ -12,6 +12,15 @@ const bannerSchema = new Schema<INotice, NoticeModal>(
       enum: ['active', 'inactive'],
       default: 'active',
     },
+
+    productNotice: {
+      type: String,
+    },
+    productNoticeStatus: {
+      type: String,
+      enum: ['active', 'inactive'],
+      default: 'active',
+    },
   },
   { timestamps: true }
 );
