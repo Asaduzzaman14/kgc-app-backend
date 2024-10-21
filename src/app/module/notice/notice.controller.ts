@@ -83,6 +83,18 @@ const deleteData = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+//  get All active data
+const test = catchAsync(async (req: Request, res: Response) => {
+  const result = await Services.testNotifaction();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'notifaction Succesfully',
+    data: result,
+  });
+});
+
 export const Controller = {
   create,
   getAlldata,
@@ -90,4 +102,5 @@ export const Controller = {
   getDataById,
   deleteData,
   getAlldataForAdmin,
+  test,
 };

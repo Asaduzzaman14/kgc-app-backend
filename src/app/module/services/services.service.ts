@@ -6,6 +6,7 @@ import ApiError from '../../../errors/ApiError';
 import calculatePagination from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
+import { Notification } from '../../../shared/notificationService';
 import { User } from '../auth/auth.model';
 import { customerSearchableFields } from './services.constant';
 import { IFilterRequest, IServices } from './services.interface';
@@ -170,6 +171,18 @@ const updateDataById = async (
   const result = await ServiceModal.findByIdAndUpdate({ _id: id }, paylode, {
     new: true,
   });
+
+  if (result && result.token) {
+    const payload = {
+      title: result.status ? 'Service Approved' : 'Service Declined',
+      body: result.status
+        ? 'আপনার সেবাটি অ্যাপ্রুভ করা হয়েছে। নির্দিষ্ট সেবাতে গিয়ে চেক করে দেখুন। ধন্যবাদ।'
+        : 'আপনার সেবাটি ডিক্লাইন করা হয়েছে। অনুগ্রহ করে ঠিকঠাকভাবে সেবা যুক্ত করুন। ধন্যবাদ।',
+    };
+
+    await Notification.sendNotification(result.token, payload);
+  }
+
   return result;
 };
 

@@ -5,6 +5,8 @@ import { Controller } from './notice.controller';
 
 const router = express.Router();
 
+router.get('/notifaction-test', Controller.test);
+
 router.post('/', Controller.create);
 
 router.patch('/:id', auth(ENUM_USER_ROLE.ADMIN), Controller.updateData);

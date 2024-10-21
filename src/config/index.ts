@@ -19,4 +19,6 @@ export default {
   resetlink: process.env.RESET_PASS_UI_LINK,
   email: process.env.EMAIL,
   appPass: process.env.APP_PASS,
+
+  firebase_service: process.env.FIREBASE_SERVICE_ACCOUNT_KEY,
 };
