@@ -23,8 +23,16 @@ const productSchema = new Schema<IProduct, ProductModal>(
       type: String,
       required: [true, 'name is required'],
     },
+    phone: {
+      type: String,
+    },
+
     discountPrice: {
       type: String,
+    },
+
+    isUsed: {
+      type: Boolean,
     },
     userId: {
       type: Types.ObjectId,

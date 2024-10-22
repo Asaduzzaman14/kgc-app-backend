@@ -11,6 +11,9 @@ export type IProduct = {
   brand: string;
   price: string;
   discountPrice: string;
+  phone: string;
+  isUsed: boolean;
+
   userId: Types.ObjectId | IUser;
   categoryId: Types.ObjectId | IProductsCategory;
   subCategoryId: Types.ObjectId | ISubCategory;
