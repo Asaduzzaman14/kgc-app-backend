@@ -7,10 +7,7 @@ const productSchema = new Schema<IProduct, ProductModal>(
       type: String,
       required: [true, 'name is required'],
     },
-    title: {
-      type: String,
-      required: [true, 'title is required'],
-    },
+
     brand: {
       type: String,
       required: [true, 'title is required'],
