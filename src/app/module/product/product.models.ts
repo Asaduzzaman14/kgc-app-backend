@@ -29,7 +29,7 @@ const productSchema = new Schema<IProduct, ProductModal>(
     },
 
     isUsed: {
-      type: Boolean,
+      type: String,
     },
     userId: {
       type: Types.ObjectId,

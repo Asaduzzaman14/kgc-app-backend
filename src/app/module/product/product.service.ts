@@ -12,8 +12,6 @@ import { Products } from './product.models';
 import { deleteUserImage } from './product.utils';
 
 const create = async (data: IProduct): Promise<IProduct | null> => {
-  console.log(data);
-
   if (!data.userId) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'user Token not found');
   }
