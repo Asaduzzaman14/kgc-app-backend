@@ -12,6 +12,7 @@ export type IProduct = {
   discountPrice: string;
   phone: string;
   isUsed: boolean;
+  totalCount:number;
 
   userId: Types.ObjectId | IUser;
   categoryId: Types.ObjectId | IProductsCategory;

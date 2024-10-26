@@ -162,6 +162,21 @@ const getById = async (id: string): Promise<any> => {
   return result;
 };
 
+const updateCountDataById = async (id: string): Promise<any | null> => {
+  const isExist = await Products.findById(id);
+  if (!isExist) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'data not found');
+  }
+  const totalCount = isExist.totalCount + 1;
+
+  const result = await Products.findByIdAndUpdate(
+    { _id: id },
+    { totalCount: totalCount }
+  );
+
+  return result;
+};
+
 export const Services = {
   create,
   getAllData,
@@ -171,4 +186,5 @@ export const Services = {
   //
   getMyAlldata,
   getById,
+  updateCountDataById,
 };

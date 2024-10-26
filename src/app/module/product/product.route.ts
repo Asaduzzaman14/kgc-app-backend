@@ -11,6 +11,7 @@ router.get(
   auth(ENUM_USER_ROLE.USER),
   Controller.getMyAlldata
 );
+router.patch('/update-view/:id', Controller.updateCountData);
 
 router.post(
   '/',

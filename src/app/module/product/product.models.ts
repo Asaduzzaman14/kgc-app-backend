@@ -47,6 +47,10 @@ const productSchema = new Schema<IProduct, ProductModal>(
       ref: 'SubCategory',
       required: true,
     },
+    totalCount: {
+      type: Number,
+      default: 0,
+    },
     img: {
       type: String,
     },

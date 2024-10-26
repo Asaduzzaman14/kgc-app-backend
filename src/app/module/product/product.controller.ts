@@ -153,6 +153,21 @@ const getMyAlldata = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
+// update data By Id
+const updateCountData = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const result = await Services.updateCountDataById(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Product count successfully updated',
+    data: result,
+  });
+});
+
 export const Controller = {
   create,
   getAlldata,
@@ -160,4 +175,5 @@ export const Controller = {
   getDataById,
   deleteData,
   getMyAlldata,
+  updateCountData,
 };
