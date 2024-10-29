@@ -4,6 +4,12 @@ import { IUser } from '../auth/auth.interface';
 import { IProductsCategory } from '../productCategory/productCategory.interface';
 import { ISubCategory } from '../subCategory/subCategory.interface';
 
+export enum ProductStatus {
+  Pending = 'Pending',
+  Rejected = 'Rejected',
+  Approved = 'Approved',
+}
+
 export type IProduct = {
   name: string;
   desc: string;
@@ -21,6 +27,8 @@ export type IProduct = {
   img?: string;
   img2?: string;
   img3?: string;
+
+  status: ProductStatus; // Use enum type here
 };
 
 export type ProductModal = Model<IProduct>;

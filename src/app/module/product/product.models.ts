@@ -1,5 +1,5 @@
 import { Schema, Types, model } from 'mongoose';
-import { IProduct, ProductModal } from './product.interface';
+import { IProduct, ProductModal, ProductStatus } from './product.interface';
 
 const productSchema = new Schema<IProduct, ProductModal>(
   {
@@ -59,6 +59,11 @@ const productSchema = new Schema<IProduct, ProductModal>(
     },
     img3: {
       type: String,
+    },
+    status: {
+      type: String,
+      enum: Object.values(ProductStatus),
+      default: ProductStatus.Pending,
     },
   },
   { timestamps: true }

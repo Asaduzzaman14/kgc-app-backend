@@ -15,6 +15,12 @@ const create = async (data: IProduct): Promise<IProduct | null> => {
   if (!data.userId) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'user Token not found');
   }
+  if (data.price < data.discountPrice) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Discount price should be less then price'
+    );
+  }
 
   const result = await Products.create(data);
   if (!result) {
