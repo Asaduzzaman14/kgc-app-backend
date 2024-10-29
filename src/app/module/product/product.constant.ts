@@ -13,4 +13,5 @@ export const customerFilterableFields = [
   'categoryId',
   'subCategoryId',
   'userId',
+  'status',
 ];

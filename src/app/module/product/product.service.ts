@@ -15,10 +15,10 @@ const create = async (data: IProduct): Promise<IProduct | null> => {
   if (!data.userId) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'user Token not found');
   }
-  if (data.price < data.discountPrice) {
+  if (Number(data.price) < Number(data.discountPrice)) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      'Discount price should be less then price'
+      'Discount price should be less than price'
     );
   }
 
@@ -31,17 +31,24 @@ const create = async (data: IProduct): Promise<IProduct | null> => {
 };
 
 const getAllData = async (
+  user: JwtPayload | null,
   filters: IFilterRequest,
   pageinationOptions: IPaginationOptions
 ): Promise<IGenericResponse<IProduct[]>> => {
   // pagination helpers
+
+  console.log(user);
+
   const { page, limit, skip, sortBy, sortOrder } =
     calculatePagination(pageinationOptions);
 
   const { searchTerm, ...filtersData } = filters;
-  console.log(searchTerm);
 
   const andCondation = [];
+
+  if (user && user.role != 'admin') {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to uplode Product');
+  }
 
   if (searchTerm) {
     andCondation.push({

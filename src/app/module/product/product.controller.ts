@@ -101,11 +101,12 @@ const updateData: RequestHandler = catchAsync(
 //  get All
 const getAlldata = catchAsync(async (req: Request, res: Response) => {
   const query = req?.query;
+  const user = req?.user;
 
   const paginationOptions = pick(query, paginationFields);
   const filters = pick(query, customerFilterableFields);
 
-  const result = await Services.getAllData(filters, paginationOptions);
+  const result = await Services.getAllData(user, filters, paginationOptions);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
