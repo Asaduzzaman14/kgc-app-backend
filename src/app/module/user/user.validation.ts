@@ -21,15 +21,15 @@ const updateProfileSchema = z
     body: z.object({
       email: z
         .string()
-        .min(4, { message: 'Email must be at least 4 characters long' })
+        .min(1, { message: 'Email must be at least 4 characters long' })
         .optional(),
       name: z
         .string()
-        .min(4, { message: 'Name must be at least 4 characters long' })
+        .min(1, { message: 'Name must be at least 4 characters long' })
         .optional(),
       phone: z
         .string()
-        .min(10, {
+        .min(9, {
           message: 'Phone number must be at least 10 characters long',
         })
         .max(15, { message: 'Phone number too long' })

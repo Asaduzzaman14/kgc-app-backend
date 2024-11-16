@@ -1,5 +1,6 @@
 import express from 'express';
 import { ENUM_USER_ROLE } from '../../../enums/user';
+import { processImage, upload } from '../../../helpers/uplode';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { UserController } from './user.controller';
@@ -20,6 +21,8 @@ router.get(
 router.patch(
   '/profile/update/:id',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
+  upload.single('image'),
+  processImage,
   validateRequest(UserValidation.updateProfileSchema),
   UserController.updateProfile
 );

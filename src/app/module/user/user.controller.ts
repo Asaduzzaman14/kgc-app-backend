@@ -1,5 +1,8 @@
 import { Request, RequestHandler, Response } from 'express';
+import fs from 'fs';
 import httpStatus from 'http-status';
+import path from 'path';
+import { baseUrl } from '../../../constants/config';
 import { paginationFields } from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
@@ -54,6 +57,39 @@ const getDataById = catchAsync(async (req: Request, res: Response) => {
 const updateProfile = catchAsync(async (req: Request, res: Response) => {
   const user = req.user;
   const updatedData = req.body;
+
+  if (req.file) {
+    updatedData.image = `${baseUrl}/uploads/images/${req?.file?.filename}`;
+  }
+
+  const findUser = await UserService.getprofile(user!._id);
+
+  if (
+    findUser &&
+    findUser.image &&
+    updatedData.image &&
+    findUser.image !== updatedData.image
+  ) {
+    const oldImageFileName = path.basename(findUser.image); // Extracts the filename from the URL (e.g., "image-1731779095102.jpeg")
+    const oldImagePath = path.join(
+      process.cwd(),
+      'uploads/images',
+      oldImageFileName
+    );
+
+    try {
+      if (fs.existsSync(oldImagePath)) {
+        fs.unlinkSync(oldImagePath); // Delete the old image
+        console.log('Old image deleted successfully');
+      } else {
+        console.log('Old image not deleted');
+      }
+    } catch (error) {
+      console.error('Error deleting old image:', error);
+    }
+  }
+
+  console.log(updatedData);
 
   const result = await UserService.updateDataById(user!._id, updatedData);
 

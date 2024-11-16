@@ -33,6 +33,9 @@ const adminSchema = new Schema<IUser, UserModal>(
     birthdate: {
       type: String,
     },
+    image: {
+      type: String,
+    },
     bloodGroup: {
       type: String,
     },

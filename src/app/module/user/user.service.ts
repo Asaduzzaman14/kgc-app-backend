@@ -89,6 +89,14 @@ const updateDataById = async (
   id: string,
   paylode: IUser
 ): Promise<IUser | null> => {
+  // complete delete task
+
+  // Find the user by ID to check if they have an old image
+  const user = await User.findById(id);
+  if (!user) {
+    throw new Error('User not found');
+  }
+
   const result = await User.findByIdAndUpdate({ _id: id }, paylode, {
     new: true,
   });

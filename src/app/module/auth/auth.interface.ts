@@ -12,6 +12,7 @@ export type IUser = {
   upazila: string;
 
   lastDonateDate?: string;
+  image?: string;
   bloodGroup?: string;
   isDonor?: boolean;
   status: 'active' | 'inactive';
