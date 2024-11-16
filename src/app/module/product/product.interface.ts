@@ -10,6 +10,12 @@ export enum ProductStatus {
   Approved = 'Approved',
 }
 
+export enum ProductType {
+  NEW = 'new',
+  USED = 'used',
+  NONE = 'n/a',
+}
+
 export type IProduct = {
   name: string;
   desc: string;
@@ -17,7 +23,7 @@ export type IProduct = {
   price: string;
   discountPrice: string;
   phone: string;
-  isUsed: string;
+  isUsed: ProductType;
   totalCount: number;
 
   userId: Types.ObjectId | IUser;
