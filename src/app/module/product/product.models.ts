@@ -1,10 +1,5 @@
 import { Schema, Types, model } from 'mongoose';
-import {
-  IProduct,
-  ProductModal,
-  ProductStatus,
-  ProductType,
-} from './product.interface';
+import { IProduct, ProductModal, ProductStatus } from './product.interface';
 
 const productSchema = new Schema<IProduct, ProductModal>(
   {
@@ -35,11 +30,6 @@ const productSchema = new Schema<IProduct, ProductModal>(
 
     isUsed: {
       type: String,
-      enum: {
-        values: Object.values(ProductType),
-        message:
-          'Invalid value for isUsed. Allowed values are: New, Used, N/A.',
-      },
     },
     userId: {
       type: Types.ObjectId,
