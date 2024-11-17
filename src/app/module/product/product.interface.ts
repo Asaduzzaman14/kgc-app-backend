@@ -11,9 +11,9 @@ export enum ProductStatus {
 }
 
 export enum ProductType {
-  NEW = 'new',
-  USED = 'used',
-  NONE = 'n/a',
+  NEW = 'New',
+  USED = 'Used',
+  NONE = 'N/A',
 }
 
 export type IProduct = {

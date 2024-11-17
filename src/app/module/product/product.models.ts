@@ -38,7 +38,7 @@ const productSchema = new Schema<IProduct, ProductModal>(
       enum: {
         values: Object.values(ProductType),
         message:
-          'Invalid value for isUsed. Allowed values are: new, used, n/a.',
+          'Invalid value for isUsed. Allowed values are: New, Used, N/A.',
       },
     },
     userId: {
