@@ -16,6 +16,8 @@ export type IUser = {
   bloodGroup?: string;
   isDonor?: boolean;
   status: 'active' | 'inactive';
+  resetToken: string;
+  resetTokenExpiration: Date;
 };
 
 export type ILogin = {

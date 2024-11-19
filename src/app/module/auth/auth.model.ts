@@ -35,6 +35,7 @@ const adminSchema = new Schema<IUser, UserModal>(
     },
     image: {
       type: String,
+      default: 'https://alppetro.co.id/dist/assets/images/default.jpg',
     },
     bloodGroup: {
       type: String,
@@ -47,6 +48,14 @@ const adminSchema = new Schema<IUser, UserModal>(
       type: String,
       required: [true, 'password is required'],
       select: 0,
+    },
+    resetToken: {
+      type: String,
+      select: false,
+    },
+    resetTokenExpiration: {
+      type: Date,
+      select: false,
     },
   },
   { timestamps: true }

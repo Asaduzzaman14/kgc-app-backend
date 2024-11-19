@@ -11,6 +11,7 @@ import {
   IloginResponse,
 } from './auth.interface';
 import { User } from './auth.model';
+import { resetPasswordTemplate } from './emailTemplate';
 import { sendEmail } from './sendResetMail';
 
 const create = async (user: IUser): Promise<IUser | null> => {
@@ -134,65 +135,98 @@ const refreshToken = async (token: string): Promise<any> => {
 const forgotPass = async (payload: { email: string }) => {
   const user = await User.findOne(
     { email: payload.email },
-    { email: 1, role: 1, name: 1 }
+    { email: 1, name: 1 }
   );
-
-  console.log(user);
 
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User does not exist!');
   }
 
-  const passResetToken = await jwtHelpers.createResetToken(
-    { id: user.id },
-    config.jwt_access_secret as string,
-    '50m'
+  const passResetToken = Math.floor(10000 + Math.random() * 90000).toString();
+
+  const expirationTime = new Date(Date.now() + 5 * 60 * 1000); // 15 minutes
+
+  user.resetToken = passResetToken;
+  user.resetTokenExpiration = expirationTime;
+
+  await User.updateOne(
+    { _id: user._id },
+    {
+      $set: {
+        resetToken: passResetToken,
+        resetTokenExpiration: expirationTime,
+      },
+    }
   );
-
-  const resetLink: string = config.resetlink + `token=${passResetToken}`;
-
-  console.log('profile: ', user);
-
   await sendEmail(
     user.email,
     `
       <div>
         <p>Hi, ${user.name}</p>
-        <p>Your password reset link: <a href=${resetLink}>Click Here</a></p>
+        <p>Your password reset token is: <strong>${passResetToken}</strong></p>
+        <p>This token is valid for 15 minutes.</p>
         <p>Thank you</p>
       </div>
-  `
+    `
   );
 
-  // return {
-  //   message: "Check your email!"
-  // }
+  // Generate email template
+  const emailTemplate = resetPasswordTemplate(user.name, passResetToken);
+
+  // Send email
+  await sendEmail(user.email, emailTemplate);
+
+  return { message: 'Password reset token sent successfully' };
 };
 
-const resetPassword = async (
-  payload: { email: string; newPassword: string },
-  token: string
-) => {
-  const { email, newPassword } = payload;
-  const user = await User.findOne({ email }, { id: 1 });
+const resetPassword = async (payload: {
+  code: string;
+  newPassword: string;
+}) => {
+  console.log(payload);
 
-  if (!user) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'User not found!');
+  const { code, newPassword } = payload;
+
+  const token = await User.findOne({ resetToken: code }).select(
+    '+email, +resetToken +resetTokenExpiration'
+  );
+
+  if (!token) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'invaid token!');
   }
 
-  const isVarified = await jwtHelpers.verifyToken(
-    token,
-    config.jwt_access_secret as string
-  );
-  console.log(isVarified);
+  // Check if the token is expired
+  if (new Date() > new Date(token.resetTokenExpiration)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Reset token has expired');
+  }
 
-  const password = await bcrypt.hash(
+  // Check if the token matches the stored reset token
+  if (token.resetToken != code) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Invalid or expired reset token'
+    );
+  }
+
+  // Hash the new password
+  const hashedPassword = await bcrypt.hash(
     newPassword,
     Number(config.bycrypt_solt_rounds)
   );
-  console.log(password);
 
-  await User.updateOne({ email }, { password });
+  // Update the user password and clear the reset token and expiration
+  await User.updateOne(
+    { email: token.email },
+    {
+      $set: {
+        password: hashedPassword, // Update password
+        resetToken: undefined, // Clear reset token
+        resetTokenExpiration: undefined, // Clear reset token expiration
+      },
+    }
+  );
+
+  return { message: 'Password has been reset successfully' };
 };
 
 export const AuthService = {
