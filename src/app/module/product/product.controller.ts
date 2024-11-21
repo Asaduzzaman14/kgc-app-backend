@@ -38,6 +38,7 @@ const create: RequestHandler = catchAsync(
     };
     console.log(newData);
 
+    return;
     const result = await Services.create(newData);
     sendResponse<IProduct>(res, {
       statusCode: httpStatus.OK,
