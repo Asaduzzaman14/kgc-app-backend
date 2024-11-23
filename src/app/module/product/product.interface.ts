@@ -34,6 +34,8 @@ export type IProduct = {
   img2?: string;
   img3?: string;
 
+  token?: string;
+
   status: ProductStatus; // Use enum type here
 };
 

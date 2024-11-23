@@ -5,6 +5,7 @@ import ApiError from '../../../errors/ApiError';
 import calculatePagination from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
+import { Notification } from '../../../shared/notificationService';
 import { IFilterRequest } from '../productCategory/productCategory.interface';
 import { customerSearchableFields } from './product.constant';
 import { IProduct } from './product.interface';
@@ -110,11 +111,23 @@ const getSingleData = async (id: string): Promise<IProduct | null> => {
 
 const updateDataById = async (
   id: string,
+  user: JwtPayload | any,
   paylode: IProduct
 ): Promise<IProduct | null> => {
   const result = await Products.findByIdAndUpdate({ _id: id }, paylode, {
     new: true,
   });
+
+  if (paylode.status == 'Approved' && user.role == 'admin' && result?.token) {
+    if (result && result.token) {
+      const payload = {
+        title: 'Approved ',
+        body: 'আপনার পণ্যের বিজ্ঞাপনটি এপ্রুভ করা হয়েছে। ক্রয়-বিক্রয় এর নির্দিষ্ট ক্যাটাগরিতে চেক করে দেখুন। ধন্যবাদ।',
+      };
+
+      await Notification.sendNotification(result.token, payload);
+    }
+  }
   return result;
 };
 
@@ -147,6 +160,18 @@ const deleteData = async (id: string): Promise<IProduct | null> => {
   }
 
   const result = await Products.findByIdAndDelete(id);
+
+  if (result) {
+    if (result && result?.token) {
+      const payload = {
+        title: 'Deleted',
+        body: 'আমাদের পণ্য নীতির সাথে ম্যাচ না হওয়ায় আপনার পণ্যের বিজ্ঞাপনটি ডিলিট করা হয়েছে। ঠিকভাবে পুনরায় পোস্ট করুন। ধন্যবাদ।',
+      };
+
+      await Notification.sendNotification(result.token, payload);
+    }
+  }
+
   return result;
 };
 

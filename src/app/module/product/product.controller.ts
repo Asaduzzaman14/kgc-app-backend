@@ -61,6 +61,7 @@ const updateData: RequestHandler = catchAsync(
     const { id } = multerReq.params;
     const data = multerReq.body;
     const files = multerReq.files;
+    const user = multerReq.user;
 
     const processFile = async (fileKey: string, dataKey: string) => {
       const file = files?.[fileKey]?.[0];
@@ -88,7 +89,7 @@ const updateData: RequestHandler = catchAsync(
       img3: data.img3,
     };
 
-    const result = await Services.updateDataById(id, updatedData);
+    const result = await Services.updateDataById(id, user, updatedData);
 
     sendResponse<IProduct>(res, {
       statusCode: httpStatus.OK,

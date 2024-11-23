@@ -7,7 +7,6 @@ const productSchema = new Schema<IProduct, ProductModal>(
       type: String,
       required: [true, 'name is required'],
     },
-
     brand: {
       type: String,
       required: [true, 'title is required'],
@@ -25,6 +24,9 @@ const productSchema = new Schema<IProduct, ProductModal>(
     },
 
     discountPrice: {
+      type: String,
+    },
+    token: {
       type: String,
     },
 
