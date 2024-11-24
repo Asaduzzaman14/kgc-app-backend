@@ -36,9 +36,7 @@ const create: RequestHandler = catchAsync(
       img2: data.img2,
       img3: data.img3,
     };
-    console.log(newData);
 
-    return;
     const result = await Services.create(newData);
     sendResponse<IProduct>(res, {
       statusCode: httpStatus.OK,

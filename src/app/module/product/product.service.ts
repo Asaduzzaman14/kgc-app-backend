@@ -22,8 +22,11 @@ const create = async (data: IProduct): Promise<IProduct | null> => {
       'Discount price should be less than price'
     );
   }
+  console.log(data, 'data');
 
   const result = await Products.create(data);
+  console.log(result);
+
   if (!result) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to uplode Product');
   }
