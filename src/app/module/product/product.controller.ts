@@ -131,7 +131,9 @@ const getDataById = catchAsync(async (req: Request, res: Response) => {
 const deleteData = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
 
-  const result = await Services.deleteData(id);
+  const user = req.user;
+
+  const result = await Services.deleteData(id, user);
 
   sendResponse<IProduct>(res, {
     statusCode: httpStatus.OK,

@@ -133,8 +133,19 @@ const updateDataById = async (
   return result;
 };
 
-const deleteData = async (id: string): Promise<IProduct | null> => {
+const deleteData = async (
+  id: string,
+  user: JwtPayload | any
+): Promise<IProduct | null> => {
   const existingRecord = await Products.findById(id);
+
+  if (user.role != 'admin')
+    if (existingRecord?.userId != user._id) {
+      throw new ApiError(
+        httpStatus.FORBIDDEN,
+        'You are not the owner of this data'
+      );
+    }
 
   if (!existingRecord) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Data Not found');
@@ -163,14 +174,16 @@ const deleteData = async (id: string): Promise<IProduct | null> => {
 
   const result = await Products.findByIdAndDelete(id);
 
-  if (result) {
-    if (result && result?.token) {
-      const payload = {
-        title: 'Deleted',
-        body: 'আমাদের পণ্য নীতির সাথে ম্যাচ না হওয়ায় আপনার পণ্যের বিজ্ঞাপনটি ডিলিট করা হয়েছে। ঠিকভাবে পুনরায় পোস্ট করুন। ধন্যবাদ।',
-      };
+  if (user.role === 'admin') {
+    if (result) {
+      if (result && result?.token) {
+        const payload = {
+          title: 'Deleted',
+          body: 'আমাদের পণ্য নীতির সাথে ম্যাচ না হওয়ায় আপনার পণ্যের বিজ্ঞাপনটি ডিলিট করা হয়েছে। ঠিকভাবে পুনরায় পোস্ট করুন। ধন্যবাদ।',
+        };
 
-      await Notification.sendNotification(result.token, payload);
+        await Notification.sendNotification(result.token, payload);
+      }
     }
   }
 
