@@ -19,6 +19,11 @@ const productSchema = new Schema<IProduct, ProductModal>(
       type: String,
       required: [true, 'name is required'],
     },
+
+    isNegotiable: {
+      type: Boolean,
+      default: false,
+    },
     phone: {
       type: String,
     },

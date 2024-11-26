@@ -7,6 +7,9 @@ export type INotice = {
 
   productNotice: string;
   productNoticeStatus: 'active' | 'inactive';
+
+  buySellImage: string;
+  buySellImageStatus: 'active' | 'inactive';
 };
 
 export type NoticeModal = Model<INotice>;

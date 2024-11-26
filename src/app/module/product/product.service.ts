@@ -22,7 +22,6 @@ const create = async (data: IProduct): Promise<IProduct | null> => {
       'Discount price should be less than price'
     );
   }
-  console.log(data, 'data');
 
   const result = await Products.create(data);
   console.log(result);
@@ -181,8 +180,6 @@ const deleteData = async (id: string): Promise<IProduct | null> => {
 const getMyAlldata = async (
   user: JwtPayload | null | any
 ): Promise<IProduct[] | null> => {
-  console.log(user);
-
   if (!user._id) {
     throw new ApiError(httpStatus.BAD_GATEWAY, 'user not found');
   }

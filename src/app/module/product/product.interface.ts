@@ -25,6 +25,7 @@ export type IProduct = {
   phone: string;
   isUsed: ProductType;
   totalCount: number;
+  isNegotiable: boolean;
 
   userId: Types.ObjectId | IUser;
   categoryId: Types.ObjectId | IProductsCategory;

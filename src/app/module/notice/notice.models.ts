@@ -12,11 +12,20 @@ const bannerSchema = new Schema<INotice, NoticeModal>(
       enum: ['active', 'inactive'],
       default: 'active',
     },
-
+    // for
     productNotice: {
       type: String,
     },
     productNoticeStatus: {
+      type: String,
+      enum: ['active', 'inactive'],
+      default: 'active',
+    },
+
+    buySellImage: {
+      type: String,
+    },
+    buySellImageStatus: {
       type: String,
       enum: ['active', 'inactive'],
       default: 'active',
