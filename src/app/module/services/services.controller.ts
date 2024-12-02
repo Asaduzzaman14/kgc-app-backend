@@ -74,8 +74,9 @@ const getDataById = catchAsync(async (req: Request, res: Response) => {
 const updateData = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const updatedData = req.body;
+  const user = req.user;
 
-  const result = await Services.updateDataById(id, updatedData);
+  const result = await Services.updateDataById(id, updatedData, user);
 
   sendResponse<IServices>(res, {
     statusCode: httpStatus.OK,

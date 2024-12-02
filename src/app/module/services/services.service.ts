@@ -159,8 +159,11 @@ const getSingleData = async (id: string): Promise<IServices | null> => {
 
 const updateDataById = async (
   id: string,
-  paylode: IServices
+  paylode: IServices,
+  user: any
 ): Promise<IServices | null> => {
+  console.log(paylode, user, 'asdasdas');
+
   const isExist = await ServiceModal.findById(id);
   if (!isExist) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'data not found');
@@ -172,7 +175,12 @@ const updateDataById = async (
     new: true,
   });
 
-  if (result && result.token) {
+  if (
+    result &&
+    result.token &&
+    user.role == 'admin' &&
+    paylode.status == true
+  ) {
     const payload = {
       title: result.status ? 'Service Approved' : 'Service Declined',
       body: result.status
