@@ -40,7 +40,7 @@ const updateProfileSchema = z
         .min(4, { message: 'Upazila must be at least 3 characters long' })
         .optional(),
       bloodGroup: z
-        .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'], {
+        .string({
           message: 'Invalid blood group',
         })
         .optional(),

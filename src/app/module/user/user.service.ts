@@ -97,6 +97,10 @@ const updateDataById = async (
     throw new Error('User not found');
   }
 
+  if (paylode.bloodGroup == ' ') {
+    delete paylode.bloodGroup;
+  }
+
   const result = await User.findByIdAndUpdate({ _id: id }, paylode, {
     new: true,
   });
