@@ -162,7 +162,9 @@ const updateDataById = async (
   paylode: IServices,
   user: any
 ): Promise<IServices | null> => {
-  console.log(paylode, user, 'asdasdas');
+  if (user.role !== 'admin') {
+    delete (paylode as Partial<IServices>).status;
+  }
 
   const isExist = await ServiceModal.findById(id);
   if (!isExist) {
@@ -176,19 +178,20 @@ const updateDataById = async (
   });
 
   if (
-    result &&
-    result.token &&
-    user.role == 'admin' &&
-    paylode.status == true
+    (result &&
+      result.token &&
+      user.role == 'admin' &&
+      paylode.status == true) ||
+    paylode.status == false
   ) {
     const payload = {
-      title: result.status ? 'Service Approved' : 'Service Declined',
-      body: result.status
+      title: result!.status ? 'Service Approved' : 'Service Declined',
+      body: result!.status
         ? 'আপনার সেবাটি অ্যাপ্রুভ করা হয়েছে। নির্দিষ্ট সেবাতে গিয়ে চেক করে দেখুন। ধন্যবাদ।'
         : 'আপনার সেবাটি ডিক্লাইন করা হয়েছে। অনুগ্রহ করে ঠিকঠাকভাবে সেবা যুক্ত করুন। ধন্যবাদ।',
     };
 
-    await Notification.sendNotification(result.token, payload);
+    await Notification.sendNotification(result!.token, payload);
   }
 
   return result;
