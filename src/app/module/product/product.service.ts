@@ -38,10 +38,6 @@ const getAllData = async (
   filters: IFilterRequest,
   pageinationOptions: IPaginationOptions
 ): Promise<IGenericResponse<IProduct[]>> => {
-  // pagination helpers
-
-  console.log(user);
-
   const { page, limit, skip, sortBy, sortOrder } =
     calculatePagination(pageinationOptions);
 

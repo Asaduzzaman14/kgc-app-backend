@@ -10,6 +10,8 @@ const router = express.Router();
 
 router.get('/all-donnor', UserController.getDonors);
 
+router.get('/all-user', auth(ENUM_USER_ROLE.ADMIN), UserController.getUsers);
+
 router.post('/', UserController.create);
 
 router.get(

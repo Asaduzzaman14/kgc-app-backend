@@ -15,3 +15,11 @@ export type UserModal = {
     currentPassword: string
   ): Promise<boolean>;
 } & Model<IUser>;
+
+export type IUserFilterRequest = {
+  searchTerm?: string;
+  name?: string;
+  email?: string;
+  bloodGroup?: string;
+  phone?: string;
+};

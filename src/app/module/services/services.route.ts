@@ -1,6 +1,7 @@
 import express from 'express';
 import { ENUM_USER_ROLE } from '../../../enums/user';
 // import { FileUploadHelper } from '../../../helpers/fileUploderHelper';
+import { processImage, upload } from '../../../helpers/uplode';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { Controller } from './services.controller';
@@ -11,6 +12,8 @@ const router = express.Router();
 router.post(
   '/',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
+  upload.single('image'),
+  processImage,
   validateRequest(serviceValidation.servicesValidationZodSchema),
   Controller.create
 );
@@ -27,6 +30,8 @@ router.post(
 router.patch(
   '/:id',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
+  upload.single('image'),
+  processImage,
   Controller.updateData
 );
 

@@ -9,6 +9,7 @@ const servicesCatagorysSchema = new Schema<IServices, ServicesModal>(
     },
     img: {
       type: String,
+      default: null,
     },
     description: {
       type: String,

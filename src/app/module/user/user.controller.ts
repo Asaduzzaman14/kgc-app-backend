@@ -41,6 +41,20 @@ const getDonors = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getUsers = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, donnoeFilterableFields);
+  const paginationOptions = pick(req.query, paginationFields);
+
+  const result = await UserService.getAllUsers(filters, paginationOptions);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'all users Retrieved Succesfully',
+    data: result,
+  });
+});
+
 const getDataById = catchAsync(async (req: Request, res: Response) => {
   const user = req.user;
   const result = await UserService.getprofile(user!._id);
@@ -89,8 +103,6 @@ const updateProfile = catchAsync(async (req: Request, res: Response) => {
     }
   }
 
-  console.log(updatedData);
-
   const result = await UserService.updateDataById(user!._id, updatedData);
 
   sendResponse(res, {
@@ -118,6 +130,7 @@ const deleteData = catchAsync(async (req: Request, res: Response) => {
 export const UserController = {
   create,
   getDonors,
+  getUsers,
   getDataById,
   updateProfile,
   deleteData,

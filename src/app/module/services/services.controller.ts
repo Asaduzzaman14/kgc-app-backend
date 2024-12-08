@@ -1,6 +1,9 @@
 import { Request, RequestHandler, Response } from 'express';
+import fs from 'fs';
 import httpStatus from 'http-status';
 import { JwtPayload } from 'jsonwebtoken';
+import path from 'path';
+import { baseUrl } from '../../../constants/config';
 import { paginationFields } from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
@@ -11,8 +14,13 @@ import { Services } from './services.service';
 
 const create: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const { ...data } = req.body;
+    const data = req.body;
     const user: JwtPayload | null = req.user;
+
+    if (req.file) {
+      data.img = `${baseUrl}/uploads/images/${req?.file?.filename}`;
+    }
+
     const result = await Services.create(data, user);
 
     sendResponse<IServices>(res, {
@@ -76,6 +84,36 @@ const updateData = catchAsync(async (req: Request, res: Response) => {
   const updatedData = req.body;
   const user = req.user;
 
+  if (req.file) {
+    updatedData.img = `${baseUrl}/uploads/images/${req?.file?.filename}`;
+  }
+
+  const findService = await Services.getDataByIdForDelete(id);
+
+  if (
+    findService &&
+    findService.img &&
+    updatedData.img &&
+    findService.img !== updatedData.image
+  ) {
+    const oldImageFileName = path.basename(findService.img); // Extracts the filename from the URL (e.g., "image-1731779095102.jpeg")
+    const oldImagePath = path.join(
+      process.cwd(),
+      'uploads/images',
+      oldImageFileName
+    );
+
+    try {
+      if (fs.existsSync(oldImagePath)) {
+        fs.unlinkSync(oldImagePath);
+      } else {
+        console.log('Old image not deleted');
+      }
+    } catch (error) {
+      console.error('Error deleting old image:');
+    }
+  }
+
   const result = await Services.updateDataById(id, updatedData, user);
 
   sendResponse<IServices>(res, {
@@ -103,6 +141,27 @@ const updateCountData = catchAsync(async (req: Request, res: Response) => {
 // Delete Parts
 const deleteData = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
+
+  const findService = await Services.getDataByIdForDelete(id);
+
+  if (findService && findService.img) {
+    const oldImageFileName = path.basename(findService.img);
+    const oldImagePath = path.join(
+      process.cwd(),
+      'uploads/images',
+      oldImageFileName
+    );
+
+    try {
+      if (fs.existsSync(oldImagePath)) {
+        fs.unlinkSync(oldImagePath);
+      } else {
+        console.log('Old image not deleted');
+      }
+    } catch (error) {
+      console.error('Error deleting old image:');
+    }
+  }
 
   const result = await Services.deleteData(id);
 

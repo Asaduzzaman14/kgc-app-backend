@@ -226,6 +226,11 @@ const getMyData = async (
   return result;
 };
 
+const getDataByIdForDelete = async (id: string): Promise<IServices | null> => {
+  const result = await ServiceModal.findById(id);
+  return result;
+};
+
 export const Services = {
   create,
   getAllData,
@@ -235,4 +240,5 @@ export const Services = {
   updateCountDataById,
   deleteData,
   getMyData,
+  getDataByIdForDelete,
 };

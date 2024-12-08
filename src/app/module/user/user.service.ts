@@ -10,6 +10,7 @@ import { Products } from '../product/product.models';
 import { ServiceModal } from '../services/services.models';
 import { IFilterRequest } from '../servicesCatagory/servicesCatagory.interface';
 import { donnorSearchableFields } from './user.constant';
+import { IUserFilterRequest } from './user.interface';
 
 const create = async (user: IUser): Promise<IUser | null> => {
   console.log(user);
@@ -64,6 +65,58 @@ const getDonorsFromDb = async (
   const result = await User.find(requestCondetion).sort(sortCondations);
 
   const total = await User.countDocuments();
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
+};
+
+const getAllUsers = async (
+  filters: IUserFilterRequest,
+  pageinationOptions: IPaginationOptions
+): Promise<IGenericResponse<IUser[]>> => {
+  // pagination helpers
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePagination(pageinationOptions);
+
+  const { searchTerm, ...filtersData } = filters;
+
+  const andCondation = [];
+
+  if (searchTerm) {
+    andCondation.push({
+      $or: donnorSearchableFields.map(field => ({
+        [field]: { $regex: searchTerm, $options: 'i' },
+      })),
+    });
+  }
+
+  if (Object.keys(filtersData).length) {
+    andCondation.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    });
+  }
+
+  const sortCondations: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortCondations[sortBy] = sortOrder;
+  }
+  const requestCondetion =
+    andCondation.length > 0 ? { $and: andCondation } : {};
+
+  const result = await User.find(requestCondetion)
+    .sort(sortCondations)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await User.countDocuments(requestCondetion);
   return {
     meta: {
       page,
@@ -135,6 +188,7 @@ const deleteData = async (id: string): Promise<any | null> => {
 
 export const UserService = {
   create,
+  getAllUsers,
   getDonorsFromDb,
   getprofile,
   updateDataById,
