@@ -16,6 +16,7 @@ const updateCatagoryValidationZodSchema = z.object({
     name: z.string().optional(),
     description: z.string().optional(),
     status: z.string().optional(),
+    serialNo: z.number().optional(),
   }),
 });
 

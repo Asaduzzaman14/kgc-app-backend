@@ -89,6 +89,8 @@ const updateDataById = async (
   id: string,
   paylode: IProductsCategory
 ): Promise<IProductsCategory | null> => {
+  console.log(paylode, 'paylode');
+
   const result = await ProductCategorys.findByIdAndUpdate(
     { _id: id },
     paylode,
